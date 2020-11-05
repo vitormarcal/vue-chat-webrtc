@@ -38,14 +38,20 @@
                            locale="en"></b-form-timepicker>
       </b-form-group>
 
-      <b-form-group label="E finalizo às:" label-for="timepicker-fim-atendimento">
-        <b-form-timepicker id="timepicker-fim-atendimento" v-model="medico.fimAtendimento"
+      <b-form-group label="Saio para descanso às:" label-for="timepicker-fim-atendimento">
+        <b-form-timepicker id="timepicker-fim-atendimento" v-model="medico.saidaDescanso"
                            locale="en"></b-form-timepicker>
       </b-form-group>
 
-      <b-form-group label="As consultas duram em média:" label-for="timepicker-fim-atendimento">
-        <b-form-timepicker id="timepicker-fim-atendimento" v-model="medico.fimAtendimento"
+      <b-form-group label="Volto do descanso às:" label-for="naoEstouDisponivelDAs">
+        <b-form-timepicker id="naoEstouDisponivelDAs" v-model="medico.voltaDescanso"
                            locale="en"></b-form-timepicker>
+      </b-form-group>
+
+      <b-form-group label="Finalizo o expediente  às:" label-for="naoEstouDisponivelAteAs">
+        <b-form-timepicker id="naoEstouDisponivelAteAs" v-model="medico.fimAtendimento"
+                           locale="en"></b-form-timepicker>
+
       </b-form-group>
 
       <b-button type="submit" variant="primary" @click="enviar">Submit</b-button>
@@ -63,6 +69,8 @@ class Medico {
     this.especialidade = null;
     this.diasDaSemana = [];
     this.inicioAtendimento = '';
+    this.saidaDescanso = '';
+    this.voltaDescanso = '';
     this.fimAtendimento = '';
   }
 }
@@ -72,6 +80,8 @@ export default {
   data() {
     return {
       medico: new Medico(),
+      naoEstouDisponivelDAs: '',
+      naoEstouDisponivelAteAs: '',
       especialidades: [
         {text: "Selecione uma especialidade", value: null},
         {text: 'Clínica Geral', value: 'CG'},
