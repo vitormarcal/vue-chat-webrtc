@@ -25,7 +25,7 @@
           ></b-form-select>
         </b-form-group>
 
-        <b-form-group label="Posso atender:" label-for="checkbox-dias-da-semana">
+        <b-form-group label="Atendo na:" label-for="checkbox-dias-da-semana">
           <b-form-checkbox-group
             id="checkbox-dias-da-semana"
             v-model="medico.diasDaSemana"
@@ -34,12 +34,12 @@
           ></b-form-checkbox-group>
         </b-form-group>
 
-        <b-form-group label="Posso atender:" label-for="timepicker-inicio-atendimento">
+        <b-form-group label="O horário de atendimento inicia às:" label-for="timepicker-inicio-atendimento">
           <b-form-timepicker id="timepicker-inicio-atendimento" v-model="medico.inicioAtendimento"
                              locale="en"></b-form-timepicker>
         </b-form-group>
 
-        <b-form-group label="Posso atender:" label-for="timepicker-fim-atendimento">
+        <b-form-group label="E finaliza às:" label-for="timepicker-fim-atendimento">
           <b-form-timepicker id="timepicker-fim-atendimento" v-model="medico.fimAtendimento"
                              locale="en"></b-form-timepicker>
         </b-form-group>
