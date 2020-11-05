@@ -27,29 +27,29 @@
       <b-form-group label="Atendo na:" label-for="checkbox-dias-da-semana">
         <b-form-checkbox-group
           id="checkbox-dias-da-semana"
-          v-model="medico.diasDaSemana"
+          v-model="medico.diasQueAtende"
           :options="diasDaSemana"
           name="flavour-1"
         ></b-form-checkbox-group>
       </b-form-group>
 
-      <b-form-group label="Inicio os trabalhos às:" label-for="timepicker-inicio-atendimento">
-        <b-form-timepicker id="timepicker-inicio-atendimento" v-model="medico.inicioAtendimento"
+      <b-form-group label="Inicio os trabalhos às:" label-for="inicioAtendimento">
+        <b-form-timepicker id="inicioAtendimento" v-model="medico.inicioAtendimento"
                            locale="en"></b-form-timepicker>
       </b-form-group>
 
-      <b-form-group label="Saio para descanso às:" label-for="timepicker-fim-atendimento">
-        <b-form-timepicker id="timepicker-fim-atendimento" v-model="medico.saidaDescanso"
+      <b-form-group label="Saio para descanso às:" label-for="saidaDescanso">
+        <b-form-timepicker id="saidaDescanso" v-model="medico.saidaDescanso"
                            locale="en"></b-form-timepicker>
       </b-form-group>
 
-      <b-form-group label="Volto do descanso às:" label-for="naoEstouDisponivelDAs">
-        <b-form-timepicker id="naoEstouDisponivelDAs" v-model="medico.voltaDescanso"
+      <b-form-group label="Volto do descanso às:" label-for="voltaDescanso">
+        <b-form-timepicker id="voltaDescanso" v-model="medico.voltaDescanso"
                            locale="en"></b-form-timepicker>
       </b-form-group>
 
-      <b-form-group label="Finalizo o expediente  às:" label-for="naoEstouDisponivelAteAs">
-        <b-form-timepicker id="naoEstouDisponivelAteAs" v-model="medico.fimAtendimento"
+      <b-form-group label="Finalizo o expediente  às:" label-for="fimAtendimento">
+        <b-form-timepicker id="fimAtendimento" v-model="medico.fimAtendimento"
                            locale="en"></b-form-timepicker>
 
       </b-form-group>
@@ -64,14 +64,15 @@
 
 <script>
 class Medico {
-  constructor() {
-    this.nome = '';
+  constructor(data) {
+    this.id = data?.id;
+    this.nome = data?.nome;
     this.especialidade = null;
-    this.diasDaSemana = [];
-    this.inicioAtendimento = '';
-    this.saidaDescanso = '';
-    this.voltaDescanso = '';
-    this.fimAtendimento = '';
+    this.diasQueAtende = data?.diasQueAtende?.split(',');
+    this.inicioAtendimento = data?.inicioAtendimento;
+    this.saidaDescanso = data?.saidaDescanso;
+    this.voltaDescanso = data?.voltaDescanso;
+    this.fimAtendimento = data?.fimAtendimento;
   }
 }
 
@@ -79,6 +80,7 @@ export default {
   name: "novo-medico",
   data() {
     return {
+      id: this.$route.params.id,
       medico: new Medico(),
       naoEstouDisponivelDAs: '',
       naoEstouDisponivelAteAs: '',
@@ -89,19 +91,40 @@ export default {
         {text: 'Pediatria', value: 'PE'}
       ],
       diasDaSemana: [
-        {text: 'Segunda', value: 'segunda'},
-        {text: 'Terça', value: 'terca'},
-        {text: 'Quarta', value: 'quarta'},
-        {text: 'Quinta', value: 'quinta'},
-        {text: 'Sexta', value: 'sexta'},
-        {text: 'Sabádo', value: 'sabado'},
-        {text: 'Domingo', value: 'domingo'},
+        {text: 'Segunda', value: 'SEGUNDA'},
+        {text: 'Terça', value: 'TERCA'},
+        {text: 'Quarta', value: 'QUARTA'},
+        {text: 'Quinta', value: 'QUINTA'},
+        {text: 'Sexta', value: 'SEXTA'},
+        {text: 'Sabádo', value: 'SABADAO'},
+        {text: 'Domingo', value: 'DOMINGO'},
       ]
 
     }
   },
   methods: {
     enviar() {
+      fetch('http://localhost:8080/medicos', {
+        method: 'POST',
+        body: JSON.stringify(this.medico),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(r => r.json())
+        .then(m => this.medico = new Medico(m))
+        .catch(e => console.error(e))
+    },
+    consultar() {
+      if (this.id) {
+        fetch('http://localhost:8080/medicos/' + this.id, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(r => r.json())
+          .then(m => this.medico = new Medico(m))
+          .catch(e => console.error(e))
+      }
 
     },
     resetar() {
