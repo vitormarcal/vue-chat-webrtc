@@ -5,48 +5,46 @@
         Novo Médico
       </h1>
 
-      <b-form @submit="enviar" @reset="resetar">
-        <b-form-group label="Nome Completo:" label-for="input-nome">
-          <b-form-input
-            id="input-nome"
-            v-model="medico.nome"
-            required
-            placeholder="Seu nome">
+      <b-form-group label="Nome Completo:" label-for="input-nome">
+        <b-form-input
+          id="input-nome"
+          v-model="medico.nome"
+          required
+          placeholder="Seu nome">
 
-          </b-form-input>
-        </b-form-group>
+        </b-form-input>
+      </b-form-group>
 
-        <b-form-group label="Especialidade:" label-for="input-especialidade">
-          <b-form-select
-            id="inline-form-custom-select-pref"
-            class="mb-2 mr-sm-2 mb-sm-0"
-            :options="especialidades"
-            :value="'Escolha sua especalidade'"
-          ></b-form-select>
-        </b-form-group>
+      <b-form-group label="Especialidade:" label-for="input-especialidade">
+        <b-form-select
+          id="inline-form-custom-select-pref"
+          class="mb-2 mr-sm-2 mb-sm-0"
+          :options="especialidades"
+          v-model="medico.especialidade"
+        ></b-form-select>
+      </b-form-group>
 
-        <b-form-group label="Atendo na:" label-for="checkbox-dias-da-semana">
-          <b-form-checkbox-group
-            id="checkbox-dias-da-semana"
-            v-model="medico.diasDaSemana"
-            :options="diasDaSemana"
-            name="flavour-1"
-          ></b-form-checkbox-group>
-        </b-form-group>
+      <b-form-group label="Atendo na:" label-for="checkbox-dias-da-semana">
+        <b-form-checkbox-group
+          id="checkbox-dias-da-semana"
+          v-model="medico.diasDaSemana"
+          :options="diasDaSemana"
+          name="flavour-1"
+        ></b-form-checkbox-group>
+      </b-form-group>
 
-        <b-form-group label="O horário de atendimento inicia às:" label-for="timepicker-inicio-atendimento">
-          <b-form-timepicker id="timepicker-inicio-atendimento" v-model="medico.inicioAtendimento"
-                             locale="en"></b-form-timepicker>
-        </b-form-group>
+      <b-form-group label="O horário de atendimento inicia às:" label-for="timepicker-inicio-atendimento">
+        <b-form-timepicker id="timepicker-inicio-atendimento" v-model="medico.inicioAtendimento"
+                           locale="en"></b-form-timepicker>
+      </b-form-group>
 
-        <b-form-group label="E finaliza às:" label-for="timepicker-fim-atendimento">
-          <b-form-timepicker id="timepicker-fim-atendimento" v-model="medico.fimAtendimento"
-                             locale="en"></b-form-timepicker>
-        </b-form-group>
+      <b-form-group label="E finaliza às:" label-for="timepicker-fim-atendimento">
+        <b-form-timepicker id="timepicker-fim-atendimento" v-model="medico.fimAtendimento"
+                           locale="en"></b-form-timepicker>
+      </b-form-group>
 
-        <b-button type="submit" variant="primary">Submit</b-button>
-        <b-button type="reset" variant="danger">Reset</b-button>
-      </b-form>
+      <b-button type="submit" variant="primary" @click="enviar">Submit</b-button>
+      <b-button type="reset" variant="danger" @click="resetar">Reset</b-button>
 
     </div>
   </div>
@@ -54,18 +52,23 @@
 </template>
 
 <script>
+class Medico {
+  constructor() {
+    this.nome = '';
+    this.especialidade = null;
+    this.diasDaSemana = [];
+    this.inicioAtendimento = '';
+    this.fimAtendimento = '';
+  }
+}
+
 export default {
   name: "novo-medico",
   data() {
     return {
-      medico: {
-        nome: '',
-        especialidade: [],
-        diasDaSemana: [],
-        inicioAtendimento: '',
-        fimAtendimento: ''
-      },
+      medico: new Medico(),
       especialidades: [
+        {text: "Selecione uma especialidade", value: null},
         {text: 'Clínica Geral', value: 'CG'},
         {text: 'Ginecologia', value: 'GI'},
         {text: 'Pediatria', value: 'PE'}
@@ -87,7 +90,7 @@ export default {
 
     },
     resetar() {
-
+      this.medico = new Medico();
     }
   }
 }
