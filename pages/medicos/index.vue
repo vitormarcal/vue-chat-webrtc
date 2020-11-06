@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <MedicoForm :medico="medico" :editar="false"></MedicoForm>
+    <MedicoForm :medico.sync="medico" :editar.sync="editar"></MedicoForm>
   </div>
 
 </template>
@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       medico: new MedicoModel(),
+      editar: true,
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <MedicoForm :medico.sync="medico"></MedicoForm>
+    <MedicoForm :medico.sync="medico" :editar="true"></MedicoForm>
   </div>
 </template>
 
@@ -10,12 +10,24 @@ import MedicoForm from "@/components/medico/MedicoForm";
 
 export default {
   components: {MedicoForm},
-  async asyncData({params, $axios, redirect}) {
+  data() {
+    return {
+      medico: new MedicoModel()
+    }
+  },
+  async asyncData({params}) {
     const id = params.slug;
-    const url = `${process.env.backendApi}/medicos/${id}`;
-    const resposta = await $axios.get(url);
-    const medico = new MedicoModel(resposta.data);
-    return {medico}
+    return {id}
+  },
+  methods: {
+    async consultar() {
+      const url = `${process.env.backendApi}/medicos/${this.id}`;
+      const resposta = await this.$axios.get(url);
+      this.medico = new MedicoModel(resposta.data);
+    }
+  },
+  created() {
+    this.consultar()
   }
 }
 </script>
