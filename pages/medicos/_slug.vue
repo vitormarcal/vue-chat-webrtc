@@ -10,6 +10,7 @@ import MedicoForm from "@/components/medico/MedicoForm";
 
 export default {
   components: {MedicoForm},
+  middleware: 'autenticado',
   data() {
     return {
       medico: new MedicoModel()
@@ -36,11 +37,6 @@ export default {
   computed: {
     usuarioCorrente() {
       return this.$store.state.auth.user;
-    }
-  },
-  mounted() {
-    if (!this.usuarioCorrente) {
-      this.$router.push('/');
     }
   }
 }

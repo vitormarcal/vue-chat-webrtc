@@ -11,6 +11,7 @@ import MedicoForm from "@/components/medico/MedicoForm";
 
 export default {
   name: "index",
+  middleware: 'autenticado',
   components: {MedicoForm},
   data() {
     return {
@@ -21,11 +22,6 @@ export default {
   computed: {
     usuarioCorrente() {
       return this.$store.state.auth.user;
-    }
-  },
-  mounted() {
-    if (!this.usuarioCorrente) {
-      this.$router.push('/');
     }
   }
 }
