@@ -2,6 +2,10 @@ export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
+  env: {
+    backendApi: process.env.BACKEND_API || 'http://localhost:8080'
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'gestao-consulta-front',
