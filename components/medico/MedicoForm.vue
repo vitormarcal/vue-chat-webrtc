@@ -31,7 +31,8 @@ export default {
         method: 'POST',
         body: JSON.stringify(this.medico),
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.accessToken
         }
       }).then(r => r.json())
         .then(medicoSalvo => {
@@ -55,7 +56,8 @@ export default {
         method: 'PUT',
         body: JSON.stringify(this.medico),
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.accessToken
         }
       }).then(r => r.json())
         .then(medicoAtualizado => {
@@ -70,6 +72,11 @@ export default {
     },
     resetar() {
       this.$emit("update:medico", new MedicoModel());
+    }
+  },
+  computed: {
+    accessToken() {
+      return this.$store.state.auth.accessToken;
     }
   }
 }

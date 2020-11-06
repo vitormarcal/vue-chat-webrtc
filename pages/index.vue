@@ -27,7 +27,7 @@
           </b-form-input>
         </b-form-group>
 
-        <a href="#" class="button--green">
+        <a href="#" class="button--green" @click="entrar">
           Entrar
         </a>
         <a href="#" class="button--grey" v-b-modal.modal-cadastro-usuario>
@@ -36,8 +36,8 @@
       </div>
 
 
-      <b-modal id="modal-cadastro-usuario" title="Cadastro de usuário">
-        <cadastro-usuario></cadastro-usuario>
+      <b-modal id="modal-cadastro-usuario" title="Cadastro de usuário" @ok="registrar">
+        <cadastro-usuario :usuario="user"></cadastro-usuario>
       </b-modal>
     </div>
   </div>
@@ -46,14 +46,70 @@
 <script>
 import CadastroUsuario from "../components/usuario/CadastroUsuario";
 
+import UsuarioModel from "../components/usuario/usuario.model";
+
 export default {
   components: {CadastroUsuario},
   data() {
-    return {}
+    return {
+      user: new UsuarioModel(),
+    }
   },
   methods: {
+    entrar() {
+      if (this.user.email && this.user.senha) {
+        this.$store.dispatch('auth/login', this.user).then(
+          () => {
+            this.$router.push('/medicos');
+          },
+          error => {
+            const message =
+              (error.response && error.response.data) ||
+              error.message ||
+              error.toString();
+            this.$bvToast.toast(message, {
+              title: 'Entrar:',
+              variant: 'danger',
+              solid: true
+            })
+          }
+        );
+      }
 
-  }
+    },
+    registrar() {
+      this.$store.dispatch('auth/register', this.user).then(
+        data => {
+          this.$bvToast.toast(data.message, {
+            title: 'Registrar:',
+            variant: 'sucesso',
+            solid: true
+          })
+        },
+        error => {
+          const message =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+          this.$bvToast.toast(message, {
+            title: 'Registrar:',
+            variant: 'danger',
+            solid: true
+          })
+        }
+      );
+    }
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.logado;
+    },
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push('/medicos');
+    }
+  },
 }
 </script>
 
