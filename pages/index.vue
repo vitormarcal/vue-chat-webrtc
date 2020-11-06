@@ -3,7 +3,7 @@
     <div>
       <Logo/>
       <h1 class="title">
-        gestao-consulta-front
+        Sistema de Gestão de Consultas
       </h1>
       <div class="links">
 
