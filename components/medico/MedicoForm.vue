@@ -35,7 +35,6 @@ export default {
       }).then(r => r.json())
         .then(medicoSalvo => {
           this.$emit("update:medico", new MedicoModel(medicoSalvo));
-          this.$emit("update:editar", true);
           this.$bvToast.toast('Médico salvo com sucesso', {
             title: 'Novo médico:',
             variant: 'success',
