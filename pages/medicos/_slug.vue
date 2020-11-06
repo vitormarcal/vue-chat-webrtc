@@ -25,7 +25,7 @@ export default {
   methods: {
     consultar() {
       if (this.id) {
-        const url = `https://sismedicina.herokuapp.com/medicos/${this.id}`;
+        const url = `${process.env.backendApi}/medicos/${this.id}`;
         fetch(url, {
           method: 'GET',
           headers: {
