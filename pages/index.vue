@@ -8,7 +8,7 @@
       <div class="links">
 
         <b-form-group label="Email:" label-for="input-email">
-          <b-form-input
+          <b-form-input co
             id="input-email"
             type="email"
             required
@@ -27,10 +27,10 @@
           </b-form-input>
         </b-form-group>
 
-        <a href="https://nuxtjs.org/" class="button--green">
+        <a href="#" class="button--green">
           Entrar
         </a>
-        <a href="https://github.com/nuxt/nuxt.js" class="button--grey">
+        <a href="#" class="button--grey">
           Cadastrar
         </a>
       </div>
