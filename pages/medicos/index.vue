@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <MedicoForm :medico="medico"></MedicoForm>
+    <MedicoForm :medico="medico" :editar="false"></MedicoForm>
   </div>
 
 </template>

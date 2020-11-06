@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1 class="title" v-if="novo">
-      Novo Médico
+    <h1 class="title" v-if="editar">
+      Editar Médico
     </h1>
     <h1 class="title" v-else>
-      Editar Médico
+      Novo Médico
     </h1>
 
 
@@ -22,7 +22,7 @@ import MedicoModel from "@/components/medico/medico.model.js";
 export default {
   name: "MedicoForm",
   components: {Medico},
-  props: ['novo'],
+  props: ['editar'],
   data() {
     return {
       medico: new MedicoModel(),
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     enviar() {
-      const url = `https://sismedicina.herokuapp.com/medicos`;
+      const url = `${process.env.backendApi}/medicos/`;
       fetch(url, {
         method: 'POST',
         body: JSON.stringify(this.medico),
@@ -38,7 +38,7 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then(r => r.json())
-        .then(medicoSalvo =>{
+        .then(medicoSalvo => {
           this.$emit("update:medico", new MedicoModel(medicoSalvo));
           this.$bvToast.toast('Médico salvo com sucesso', {
             title: 'Novo médico:',
@@ -58,16 +58,15 @@ export default {
 <style scoped>
 
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: 'Quicksand',
+  'Source Sans Pro',
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  Arial,
+  sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
