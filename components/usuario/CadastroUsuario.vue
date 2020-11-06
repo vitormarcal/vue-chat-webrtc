@@ -16,7 +16,7 @@
       </b-form-input>
     </b-form-group>
 
-    <b-form-group label="Individual radios">
+    <b-form-group label="Você é um paciente ou um médico?">
       <b-form-radio v-model="usuario.tipo" name="some-radios" value="P">Paciente</b-form-radio>
       <b-form-radio v-model="usuario.tipo" name="some-radios" value="M">Médico</b-form-radio>
     </b-form-group>
