@@ -38,7 +38,14 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then(r => r.json())
-        .then(m => this.$emit("update:medico", new MedicoModel(m)))
+        .then(medicoSalvo =>{
+          this.$emit("update:medico", new MedicoModel(medicoSalvo));
+          this.$bvToast.toast('Médico salvo com sucesso', {
+            title: 'Novo médico:',
+            variant: 'success',
+            solid: true
+          })
+        })
         .catch(e => console.error(e))
     },
     resetar() {
