@@ -17,6 +17,16 @@ export default {
       medico: new MedicoModel(),
       editar: false,
     }
+  },
+  computed: {
+    usuarioCorrente() {
+      return this.$store.state.auth.user;
+    }
+  },
+  mounted() {
+    if (!this.usuarioCorrente) {
+      this.$router.push('/');
+    }
   }
 }
 </script>

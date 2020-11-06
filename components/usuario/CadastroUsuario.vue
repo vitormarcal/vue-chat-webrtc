@@ -32,36 +32,15 @@
       </b-form-input>
     </b-form-group>
 
-    <b-form-group label="Repita a senha:" label-for="input-senha-repete">
-      <b-form-input
-        v-model="usuario.repeteSenha"
-        id="input-senha-repete"
-        type="password"
-        required
-        placeholder="Repita a Senha">
-
-      </b-form-input>
-    </b-form-group>
-
   </div>
 
 </template>
 
 <script>
-import UsuarioModel from "./usuario.model";
 
 export default {
   name: "CadastroUsuario",
-  data() {
-    return {
-      usuario: new UsuarioModel()
-    }
-  },
-  methods: {
-    cadastrar() {
-
-    }
-  }
+  props: ['usuario']
 }
 </script>
 

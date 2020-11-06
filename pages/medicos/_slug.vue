@@ -22,12 +22,26 @@ export default {
   methods: {
     async consultar() {
       const url = `${process.env.backendApi}/medicos/${this.id}`;
-      const resposta = await this.$axios.get(url);
+      const resposta = await this.$axios.get(url, {
+        headers: {
+          'Authorization': this.usuarioCorrente?.accessToken
+        }
+      });
       this.medico = new MedicoModel(resposta.data);
     }
   },
   created() {
     this.consultar()
+  },
+  computed: {
+    usuarioCorrente() {
+      return this.$store.state.auth.user;
+    }
+  },
+  mounted() {
+    if (!this.usuarioCorrente) {
+      this.$router.push('/');
+    }
   }
 }
 </script>
