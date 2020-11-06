@@ -40,6 +40,11 @@ export default {
             variant: 'success',
             solid: true
           })
+
+          setTimeout(() => {
+            this.$router.push('/medicos/' + medicoSalvo.id)
+          }, 1000);
+
         })
         .catch(e => console.error(e))
     },
