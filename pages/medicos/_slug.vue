@@ -10,33 +10,12 @@ import MedicoForm from "@/components/medico/MedicoForm";
 
 export default {
   components: {MedicoForm},
-  async asyncData({params}) {
-    const id = params.slug
-    return {id}
-  },
-  data() {
-    return {
-      medico: new MedicoModel(),
-    }
-  },
-  created() {
-    this.consultar()
-  },
-  methods: {
-    consultar() {
-      if (this.id) {
-        const url = `${process.env.backendApi}/medicos/${this.id}`;
-        fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }).then(r => r.json())
-          .then(m => this.medico = new MedicoModel(m))
-          .catch(e => console.error(e))
-      }
-
-    }
+  async asyncData({params, $axios, redirect}) {
+    const id = params.slug;
+    const url = `${process.env.backendApi}/medicos/${id}`;
+    const resposta = await $axios.get(url);
+    const medico = new MedicoModel(resposta.data);
+    return {medico}
   }
 }
 </script>
