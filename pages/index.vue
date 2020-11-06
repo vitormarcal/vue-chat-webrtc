@@ -6,21 +6,32 @@
         gestao-consulta-front
       </h1>
       <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
+
+        <b-form-group label="Email:" label-for="input-email">
+          <b-form-input
+            id="input-email"
+            type="email"
+            required
+            placeholder="Seu email">
+
+          </b-form-input>
+        </b-form-group>
+
+        <b-form-group label="Senha:" label-for="input-senha">
+          <b-form-input
+            id="input-senha"
+            type="password"
+            required
+            placeholder="Senha">
+
+          </b-form-input>
+        </b-form-group>
+
+        <a href="https://nuxtjs.org/" class="button--green">
+          Entrar
         </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
+        <a href="https://github.com/nuxt/nuxt.js" class="button--grey">
+          Cadastrar
         </a>
       </div>
     </div>
