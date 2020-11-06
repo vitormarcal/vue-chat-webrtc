@@ -104,7 +104,8 @@ export default {
   },
   methods: {
     enviar() {
-      fetch('http://localhost:8080/medicos', {
+      const url = `https://sismedicina.herokuapp.com/medicos`;
+      fetch(url, {
         method: 'POST',
         body: JSON.stringify(this.medico),
         headers: {
@@ -116,7 +117,8 @@ export default {
     },
     consultar() {
       if (this.id) {
-        fetch('http://localhost:8080/medicos/' + this.id, {
+        const url = `https://sismedicina.herokuapp.com/medicos/${this.id}`;
+        fetch(url, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
