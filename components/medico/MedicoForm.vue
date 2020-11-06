@@ -10,7 +10,8 @@
 
     <Medico :medico="medico"/>
 
-    <b-button type="submit" variant="primary" @click="enviar">Cadastrar</b-button>
+    <b-button type="submit" variant="primary" v-if="editar" @click="editarMedico">Editar</b-button>
+    <b-button type="submit" variant="primary" v-else @click="salvarMedico">Cadastrar</b-button>
     <b-button type="reset" variant="danger" @click="resetar">Limpar</b-button>
   </div>
 </template>
@@ -24,7 +25,7 @@ export default {
   components: {Medico},
   props: ['editar', "medico"],
   methods: {
-    enviar() {
+    salvarMedico() {
       const url = `${process.env.backendApi}/medicos/`;
       fetch(url, {
         method: 'POST',
@@ -45,6 +46,25 @@ export default {
             this.$router.push('/medicos/' + medicoSalvo.id)
           }, 1000);
 
+        })
+        .catch(e => console.error(e))
+    },
+    editarMedico() {
+      const url = `${process.env.backendApi}/medicos/`;
+      fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(this.medico),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(r => r.json())
+        .then(medicoAtualizado => {
+          this.$emit("update:medico", new MedicoModel(medicoAtualizado));
+          this.$bvToast.toast('Médico atualizado com sucesso', {
+            title: 'Edição do médico:',
+            variant: 'success',
+            solid: true
+          })
         })
         .catch(e => console.error(e))
     },
