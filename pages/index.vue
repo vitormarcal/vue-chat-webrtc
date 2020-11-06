@@ -8,7 +8,7 @@
       <div class="links">
 
         <b-form-group label="Email:" label-for="input-email">
-          <b-form-input co
+          <b-form-input
             id="input-email"
             type="email"
             required
@@ -30,16 +30,31 @@
         <a href="#" class="button--green">
           Entrar
         </a>
-        <a href="#" class="button--grey">
+        <a href="#" class="button--grey" v-b-modal.modal-cadastro-usuario>
           Cadastrar
         </a>
       </div>
+
+
+      <b-modal id="modal-cadastro-usuario" title="Cadastro de usuário">
+        <cadastro-usuario></cadastro-usuario>
+      </b-modal>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import CadastroUsuario from "../components/usuario/CadastroUsuario";
+
+export default {
+  components: {CadastroUsuario},
+  data() {
+    return {}
+  },
+  methods: {
+
+  }
+}
 </script>
 
 <style>
