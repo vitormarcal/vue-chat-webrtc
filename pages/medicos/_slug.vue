@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <MedicoForm :medico="medico"></MedicoForm>
+    <MedicoForm :medico.sync="medico"></MedicoForm>
   </div>
 </template>
 
