@@ -4,6 +4,7 @@
       id="inline-form-custom-select-pref"
       class="mb-2 mr-sm-2 mb-sm-0"
       :options="lista"
+      @change="change"
       v-model="valor"
     ></b-form-select>
   </b-form-group>
@@ -25,6 +26,12 @@ export default {
         {text: 'Saúde do adulto', value: 'sad'},
         {text: 'Saúde da criança e adolescente', value: 'sec'},
       ],
+    }
+  },
+  methods: {
+    change(value) {
+      console.log("selecionou")
+      this.$emit('change', value)
     }
   },
   computed: {
