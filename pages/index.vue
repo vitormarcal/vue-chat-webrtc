@@ -11,7 +11,7 @@
           <b-form-input
             id="input-login-username"
             type="text"
-            v-model="user.username"
+            v-model="usuario.username"
             required
             placeholder="Seu nome de usuário">
 
@@ -21,7 +21,7 @@
         <b-form-group label="Senha:" label-for="input-login-senha">
           <b-form-input
             id="input-login-senha"
-            v-model="user.password"
+            v-model="usuario.password"
             type="password"
             required
             placeholder="Senha">
@@ -39,7 +39,7 @@
 
 
       <b-modal id="modal-cadastro-usuario" title="Cadastro de usuário" @ok="registrar">
-        <cadastro-usuario :usuario="user"></cadastro-usuario>
+        <cadastro-usuario :usuario="usuario"></cadastro-usuario>
       </b-modal>
     </div>
   </div>
@@ -54,13 +54,13 @@ export default {
   components: {CadastroUsuario},
   data() {
     return {
-      user: new UsuarioModel(),
+      usuario: new UsuarioModel(),
     }
   },
   methods: {
     entrar() {
-      if (this.user.username && this.user.password) {
-        this.$store.dispatch('auth/login', this.user).then(
+      if (this.usuario.username && this.usuario.password) {
+        this.$store.dispatch('auth/login', this.usuario).then(
           () => {
             this.$router.push('/tecnicos');
           },
@@ -84,7 +84,7 @@ export default {
 
     },
     registrar() {
-      this.$store.dispatch('auth/register', this.user).then(
+      this.$store.dispatch('auth/register', this.usuario).then(
         data => {
           this.$bvToast.toast(data.message, {
             title: 'Registrar:',
@@ -111,10 +111,7 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.logado;
-    },
-    user() {
-      return this.$store.state.auth.user;
-    },
+    }
   },
   created() {
     if (this.loggedIn) {
