@@ -17,7 +17,7 @@
 
       <selecao-especialidades :especialidade.sync="especialidade" @change="filtrar"></selecao-especialidades>
 
-      <b-form-group label="Escolha o dia:">
+      <b-form-group label="Escolha o dia:" >
         <b-col md="auto">
           <b-calendar v-model="diaDaConsulta" locale="en-US" @selected="filtrar"></b-calendar>
         </b-col>
@@ -138,14 +138,14 @@ export default {
   sans-serif;
   display: block;
   font-weight: 300;
-  font-size: 40px;
+  font-size: 32px;
   color: #35495e;
   letter-spacing: 1px;
 }
 
 .subtitle {
   font-weight: 300;
-  font-size: 16px;
+  font-size: 1rem;
   color: #526488;
   word-spacing: 5px;
   padding-bottom: 15px;
