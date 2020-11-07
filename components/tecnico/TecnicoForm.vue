@@ -4,7 +4,7 @@
       Editar Técnico
     </h1>
     <h1 class="title" v-else>
-      {{usuarioCorrente.username}}, complete seu cadastro.
+      {{ usuarioCorrente.username }}, complete seu cadastro.
     </h1>
 
 
@@ -26,29 +26,35 @@ export default {
   props: ['editar', "tecnico"],
   methods: {
     salvarTecnico() {
-      const url = `${process.env.backendApi}/tecnicos/`;
-      fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(this.tecnico),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': this.accessToken
-        }
-      }).then(r => r.json())
-        .then(tecnicoSalvo => {
-          this.$emit("update:tecnico", new TecnicoModel(tecnicoSalvo));
-          this.$bvToast.toast('Técnico salvo com sucesso', {
-            title: 'Novo técnico:',
-            variant: 'success',
+
+      this.$store.dispatch('tecnicos.service/setTecnico', this.tecnico)
+        .then(
+          tecnicoSalvo => {
+            this.$emit("update:tecnico", new TecnicoModel(tecnicoSalvo));
+            this.$bvToast.toast('Técnico salvo com sucesso', {
+              title: 'Novo técnico:',
+              variant: 'success',
+              solid: true
+            })
+            setTimeout(() => {
+              this.$router.push('/tecnicos/' + tecnicoSalvo.id)
+            }, 1000);
+          }
+        ).catch(
+        error => {
+          let message = "Ocorreu um erro";
+          if (error?.response?.data?.message) {
+            message = error.response.data.message
+          } else if (error?.message) {
+            message = error.message;
+          }
+          this.$bvToast.toast(message, {
+            title: 'Cadastro de técnico:',
+            variant: 'danger',
             solid: true
           })
-
-          setTimeout(() => {
-            this.$router.push('/tecnicos/' + tecnicoSalvo.id)
-          }, 1000);
-
-        })
-        .catch(e => console.error(e))
+        }
+      )
     },
     editarTecnico() {
       const url = `${process.env.backendApi}/tecnicos/`;
