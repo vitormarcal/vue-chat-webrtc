@@ -21,14 +21,9 @@
       </b-form-input>
     </b-form-group>
 
-    <b-form-group label="Especialidade:" label-for="input-especialidade">
-      <b-form-select
-        id="inline-form-custom-select-pref"
-        class="mb-2 mr-sm-2 mb-sm-0"
-        :options="especialidades"
-        v-model="tecnico.especialidade"
-      ></b-form-select>
-    </b-form-group>
+    <selecao-especialidades :especialidade.sync="tecnico.especialidade"></selecao-especialidades>
+
+
     <b-form-group label="Atendo na:" label-for="checkbox-dias-da-semana">
       <b-form-checkbox-group
         id="checkbox-dias-da-semana"
@@ -65,8 +60,11 @@
 
 </template>
 <script>
+import SelecaoEspecialidades from "./SelecaoEspecialidades";
+
 export default {
   name: 'Tecnico',
+  components: {SelecaoEspecialidades},
   props: ['tecnico'],
   data() {
     return {
@@ -78,16 +76,6 @@ export default {
         {text: 'Sexta', value: 'SEXTA'},
         {text: 'Sabádo', value: 'SABADAO'},
         {text: 'Domingo', value: 'DOMINGO'},
-      ],
-      especialidades: [
-        {text: "Selecione uma especialidade", value: null},
-        {text: 'Saúde da mulher', value: 'smu'},
-        {text: 'Saúde mental', value: 'sme'},
-        {text: 'Primeiro socorros', value: 'ps'},
-        {text: 'Covid-19', value: 'c19'},
-        {text: 'Saúde do idoso', value: 'sid'},
-        {text: 'Saúde do adulto', value: 'sad'},
-        {text: 'Saúde da criança e adolescente', value: 'sec'},
       ],
     }
   },
