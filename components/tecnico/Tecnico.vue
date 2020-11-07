@@ -81,9 +81,13 @@ export default {
       ],
       especialidades: [
         {text: "Selecione uma especialidade", value: null},
-        {text: 'Clínica Geral', value: 'CG'},
-        {text: 'Ginecologia', value: 'GI'},
-        {text: 'Pediatria', value: 'PE'}
+        {text: 'Saúde da mulher', value: 'smu'},
+        {text: 'Saúde mental', value: 'sme'},
+        {text: 'Primeiro socorros', value: 'ps'},
+        {text: 'Covid-19', value: 'c19'},
+        {text: 'Saúde do idoso', value: 'sid'},
+        {text: 'Saúde do adulto', value: 'sad'},
+        {text: 'Saúde da criança e adolescente', value: 'sec'},
       ],
     }
   },
