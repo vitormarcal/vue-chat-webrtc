@@ -4,7 +4,7 @@
       Editar Técnico
     </h1>
     <h1 class="title" v-else>
-      Novo Técnico
+      {{usuarioCorrente.username}}, complete seu cadastro.
     </h1>
 
 
@@ -77,6 +77,9 @@ export default {
   computed: {
     accessToken() {
       return this.$store.state.auth.accessToken;
+    },
+    usuarioCorrente() {
+      return this.$store.state.auth.user;
     }
   }
 }

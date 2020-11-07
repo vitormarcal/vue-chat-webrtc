@@ -8,6 +8,7 @@ class UsuarioModel {
     this.password = data?.password;
     this.roles = data?.roles;
     this.accessToken = data?.accessToken;
+    this.cadastroCompleto = data?.cadastroCompleto;
 
     if (data?.roles?.includes('ROLE_ADMIN')) {
       this.tipo = 'A'

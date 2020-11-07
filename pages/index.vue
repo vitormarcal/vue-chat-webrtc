@@ -62,7 +62,7 @@ export default {
       if (this.usuario.username && this.usuario.password) {
         this.$store.dispatch('auth/login', this.usuario).then(
           () => {
-            this.$router.push('/tecnicos');
+            this.$router.push('/agenda');
           },
           error => {
             let message = "Ocorreu um erro";
@@ -111,6 +111,9 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.logado;
+    },
+    usuarioLogado() {
+      return this.$store.state.auth.user;
     }
   },
   created() {

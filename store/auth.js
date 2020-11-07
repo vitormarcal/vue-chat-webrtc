@@ -3,7 +3,6 @@ import UsuarioModel from "../components/usuario/usuario.model";
 
 let user;
 if (process.browser) {
-  debugger
   user = new UsuarioModel(JSON.parse(localStorage.getItem('user')))
 }
 

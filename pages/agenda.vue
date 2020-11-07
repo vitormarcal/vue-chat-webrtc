@@ -76,7 +76,7 @@ import SelecaoEspecialidades from "../components/tecnico/SelecaoEspecialidades";
 export default {
   name: "agenda.vue",
   components: {SelecaoEspecialidades},
-  middleware: 'autenticado',
+  middleware: ['autenticado', 'cadastro-incompleto'],
   data() {
     return {
       isBusy: false,
