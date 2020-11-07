@@ -37,8 +37,8 @@ export default {
       }).then(r => r.json())
         .then(tecnicoSalvo => {
           this.$emit("update:tecnico", new TecnicoModel(tecnicoSalvo));
-          this.$bvToast.toast('Médico salvo com sucesso', {
-            title: 'Novo médico:',
+          this.$bvToast.toast('Técnico salvo com sucesso', {
+            title: 'Novo técnico:',
             variant: 'success',
             solid: true
           })
@@ -62,8 +62,8 @@ export default {
       }).then(r => r.json())
         .then(tecnicoAtualizado => {
           this.$emit("update:tecnico", new TecnicoModel(tecnicoAtualizado));
-          this.$bvToast.toast('Médico atualizado com sucesso', {
-            title: 'Edição do médico:',
+          this.$bvToast.toast('Técnico atualizado com sucesso', {
+            title: 'Edição do técnico:',
             variant: 'success',
             solid: true
           })

@@ -9,16 +9,18 @@
 
       </b-form-input>
 
+    </b-form-group>
+
+    <b-form-group label="Telefone:" label-for="input-telefone">
       <b-form-input
         id="input-telefone"
         type="tel"
         v-model="tecnico.telefone"
         required
         placeholder="Seu telefone">
-
       </b-form-input>
-
     </b-form-group>
+
     <b-form-group label="Especialidade:" label-for="input-especialidade">
       <b-form-select
         id="inline-form-custom-select-pref"

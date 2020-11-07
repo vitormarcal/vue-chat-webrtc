@@ -27,9 +27,9 @@
       </b-form-input>
     </b-form-group>
 
-    <b-form-group label="Você é um paciente ou um médico?">
+    <b-form-group label="Você é um paciente ou um técnico?">
       <b-form-radio v-model="usuario.tipo" name="some-radios" value="P">Paciente</b-form-radio>
-      <b-form-radio v-model="usuario.tipo" name="some-radios" value="M">Médico</b-form-radio>
+      <b-form-radio v-model="usuario.tipo" name="some-radios" value="T">Técnico</b-form-radio>
     </b-form-group>
 
     <b-form-group label="Crie uma senha:" label-for="input-senha">
