@@ -5,9 +5,9 @@ class UsuarioModel {
     this.tipo = data?.tipo;
     this.password = data?.password;
 
-    if (data?.roles.includes('admin')) {
+    if (data?.role.includes('admin')) {
       this.tipo = 'A'
-    } else if (data?.roles.includes('medico')) {
+    } else if (data?.role.includes('medico')) {
       this.tipo = 'M'
     } else {
       this.tipo = 'U'
@@ -15,7 +15,7 @@ class UsuarioModel {
 
   }
 
-  get roles() {
+  get role() {
     if (this.tipo === 'A') {
       return ['admin']
     } else if (this.tipo === 'M') {
