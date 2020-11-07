@@ -14,20 +14,6 @@
 export default {
   name: "SelecaoEspecialidades",
   props: ['especialidade'],
-  data() {
-    return {
-      lista: [
-        {text: "Selecione uma especialidade", value: null},
-        {text: 'Saúde da mulher', value: 'smu'},
-        {text: 'Saúde mental', value: 'sme'},
-        {text: 'Primeiro socorros', value: 'ps'},
-        {text: 'Covid-19', value: 'c19'},
-        {text: 'Saúde do idoso', value: 'sid'},
-        {text: 'Saúde do adulto', value: 'sad'},
-        {text: 'Saúde da criança e adolescente', value: 'sec'},
-      ],
-    }
-  },
   methods: {
     change(value) {
       console.log("selecionou")
@@ -35,14 +21,25 @@ export default {
     }
   },
   computed: {
+    lista() {
+      const lista = [];
+      lista.push({text: "Selecione uma especialidade", value: null})
+      this.$store.state.especialidades.lista.forEach(item => {
+        lista.push({text: item.descricao, value: item.id})
+      });
+      return lista
+    },
     valor: {
       get: function () {
         this.especialidade
       },
-      set: function(newValue) {
+      set: function (newValue) {
         this.$emit('update:especialidade', newValue)
       }
     }
+  },
+  created() {
+    this.$store.dispatch("especialidades/setEspecialidades")
   }
 }
 </script>
