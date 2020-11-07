@@ -5,6 +5,17 @@
       Novo Usuário
     </h1>
 
+    <b-form-group label="Escolha um nome de usuário:" label-for="input-username">
+      <b-form-input
+        v-model="usuario.username"
+        id="input-username"
+        type="email"
+        required
+        placeholder="Seu nome de usuário">
+
+      </b-form-input>
+    </b-form-group>
+
     <b-form-group label="Informe o email:" label-for="input-email">
       <b-form-input
         v-model="usuario.email"
@@ -23,7 +34,7 @@
 
     <b-form-group label="Crie uma senha:" label-for="input-senha">
       <b-form-input
-        v-model="usuario.senha"
+        v-model="usuario.password"
         id="input-senha"
         type="password"
         required
