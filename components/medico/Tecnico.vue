@@ -1,44 +1,61 @@
 <template>
   <div>
-    <b-form-group label="Nome Completo:" label-for="input-nome">
+    <b-form-group label="Nome:" label-for="input-nome">
       <b-form-input
         id="input-nome"
-        v-model="medico.nome"
+        v-model="tecnico.nome"
         required
         placeholder="Seu nome">
 
       </b-form-input>
+
+      <b-form-input
+        id="input-telefone"
+        type="tel"
+        v-model="tecnico.telefone"
+        required
+        placeholder="Seu telefone">
+
+      </b-form-input>
+
     </b-form-group>
     <b-form-group label="Especialidade:" label-for="input-especialidade">
       <b-form-select
         id="inline-form-custom-select-pref"
         class="mb-2 mr-sm-2 mb-sm-0"
         :options="especialidades"
-        v-model="medico.especialidade"
+        v-model="tecnico.especialidade"
       ></b-form-select>
     </b-form-group>
     <b-form-group label="Atendo na:" label-for="checkbox-dias-da-semana">
       <b-form-checkbox-group
         id="checkbox-dias-da-semana"
-        v-model="medico.diasQueAtende"
+        v-model="tecnico.diasQueAtende"
         :options="diasDaSemana"
         name="flavour-1"
       ></b-form-checkbox-group>
     </b-form-group>
+
+    <b-form-group label="Meus atendimentos duram:" label-for="duracaoAtendimento">
+      <b-form-timepicker id="duracaoAtendimento" v-model="tecnico.duracaoAtendimento"
+                         locale="en"></b-form-timepicker>
+
+    </b-form-group>
+
     <b-form-group label="Inicio os trabalhos às:" label-for="inicioAtendimento">
-      <b-form-timepicker id="inicioAtendimento" v-model="medico.inicioAtendimento"
+      <b-form-timepicker id="inicioAtendimento" v-model="tecnico.inicioAtendimento"
                          locale="en"></b-form-timepicker>
     </b-form-group>
     <b-form-group label="Saio para descanso às:" label-for="saidaDescanso">
-      <b-form-timepicker id="saidaDescanso" v-model="medico.saidaDescanso"
+      <b-form-timepicker id="saidaDescanso" v-model="tecnico.saidaDescanso"
                          locale="en"></b-form-timepicker>
     </b-form-group>
     <b-form-group label="Volto do descanso às:" label-for="voltaDescanso">
-      <b-form-timepicker id="voltaDescanso" v-model="medico.voltaDescanso"
+      <b-form-timepicker id="voltaDescanso" v-model="tecnico.voltaDescanso"
                          locale="en"></b-form-timepicker>
     </b-form-group>
     <b-form-group label="Finalizo o expediente  às:" label-for="fimAtendimento">
-      <b-form-timepicker id="fimAtendimento" v-model="medico.fimAtendimento"
+      <b-form-timepicker id="fimAtendimento" v-model="tecnico.fimAtendimento"
                          locale="en"></b-form-timepicker>
 
     </b-form-group>
@@ -47,8 +64,8 @@
 </template>
 <script>
 export default {
-  name: 'Medico',
-  props: ['medico'],
+  name: 'Tecnico',
+  props: ['tecnico'],
   data() {
     return {
       diasDaSemana: [

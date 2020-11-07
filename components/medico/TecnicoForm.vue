@@ -1,42 +1,42 @@
 <template>
   <div>
     <h1 class="title" v-if="editar">
-      Editar Médico
+      Editar Técnico
     </h1>
     <h1 class="title" v-else>
-      Novo Médico
+      Novo Técnico
     </h1>
 
 
-    <Medico :medico="medico"/>
+    <Tecnico :tecnico="tecnico"/>
 
-    <b-button type="submit" variant="primary" v-if="editar" @click="editarMedico">Editar</b-button>
-    <b-button type="submit" variant="primary" v-else @click="salvarMedico">Cadastrar</b-button>
+    <b-button type="submit" variant="primary" v-if="editar" @click="editarTecnico">Editar</b-button>
+    <b-button type="submit" variant="primary" v-else @click="salvarTecnico">Cadastrar</b-button>
     <b-button type="reset" variant="danger" @click="resetar">Limpar</b-button>
   </div>
 </template>
 
 <script>
-import Medico from "@/components/medico/Medico";
-import MedicoModel from "@/components/medico/medico.model.js";
+import Tecnico from "@/components/tecnico/Tecnico";
+import TecnicoModel from "@/components/tecnico/tecnico.model.js";
 
 export default {
-  name: "MedicoForm",
-  components: {Medico},
-  props: ['editar', "medico"],
+  name: "TecnicoForm",
+  components: {Tecnico},
+  props: ['editar', "tecnico"],
   methods: {
-    salvarMedico() {
-      const url = `${process.env.backendApi}/medicos/`;
+    salvarTecnico() {
+      const url = `${process.env.backendApi}/tecnicos/`;
       fetch(url, {
         method: 'POST',
-        body: JSON.stringify(this.medico),
+        body: JSON.stringify(this.tecnico),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': this.accessToken
         }
       }).then(r => r.json())
-        .then(medicoSalvo => {
-          this.$emit("update:medico", new MedicoModel(medicoSalvo));
+        .then(tecnicoSalvo => {
+          this.$emit("update:tecnico", new TecnicoModel(tecnicoSalvo));
           this.$bvToast.toast('Médico salvo com sucesso', {
             title: 'Novo médico:',
             variant: 'success',
@@ -44,24 +44,24 @@ export default {
           })
 
           setTimeout(() => {
-            this.$router.push('/medicos/' + medicoSalvo.id)
+            this.$router.push('/tecnicos/' + tecnicoSalvo.id)
           }, 1000);
 
         })
         .catch(e => console.error(e))
     },
-    editarMedico() {
-      const url = `${process.env.backendApi}/medicos/`;
+    editarTecnico() {
+      const url = `${process.env.backendApi}/tecnicos/`;
       fetch(url, {
         method: 'PUT',
-        body: JSON.stringify(this.medico),
+        body: JSON.stringify(this.tecnico),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': this.accessToken
         }
       }).then(r => r.json())
-        .then(medicoAtualizado => {
-          this.$emit("update:medico", new MedicoModel(medicoAtualizado));
+        .then(tecnicoAtualizado => {
+          this.$emit("update:tecnico", new TecnicoModel(tecnicoAtualizado));
           this.$bvToast.toast('Médico atualizado com sucesso', {
             title: 'Edição do médico:',
             variant: 'success',
@@ -71,7 +71,7 @@ export default {
         .catch(e => console.error(e))
     },
     resetar() {
-      this.$emit("update:medico", new MedicoModel());
+      this.$emit("update:tecnico", new TecnicoModel());
     }
   },
   computed: {
