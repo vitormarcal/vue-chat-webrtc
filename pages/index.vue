@@ -7,19 +7,21 @@
       </h1>
       <div class="links">
 
-        <b-form-group label="Email:" label-for="input-email">
+        <b-form-group label="Nome de usuário:" label-for="input-login-username">
           <b-form-input
-            id="input-email"
-            type="email"
+            id="input-login-username"
+            type="text"
+            v-model="user.username"
             required
-            placeholder="Seu email">
+            placeholder="Seu nome de usuário">
 
           </b-form-input>
         </b-form-group>
 
-        <b-form-group label="Senha:" label-for="input-senha">
+        <b-form-group label="Senha:" label-for="input-login-senha">
           <b-form-input
-            id="input-senha"
+            id="input-login-senha"
+            v-model="user.password"
             type="password"
             required
             placeholder="Senha">
@@ -57,7 +59,7 @@ export default {
   },
   methods: {
     entrar() {
-      if (this.user.email && this.user.senha) {
+      if (this.user.username && this.user.password) {
         this.$store.dispatch('auth/login', this.user).then(
           () => {
             this.$router.push('/medicos');
