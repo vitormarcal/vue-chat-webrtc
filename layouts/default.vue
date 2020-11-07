@@ -1,6 +1,7 @@
 <template>
   <b-container class="container">
-    <Nuxt />
+    <nav-bar></nav-bar>
+    <Nuxt class="container"/>
   </b-container>
 </template>
 
@@ -72,9 +73,10 @@ html {
 }
 </style>
 <script>
-import Header from "./Header";
+import CHeader from "./Header";
+import NavBar from "../components/NavBar";
 
 export default {
-  components: {Header}
+  components: {NavBar, CHeader}
 }
 </script>

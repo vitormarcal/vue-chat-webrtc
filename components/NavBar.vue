@@ -1,6 +1,6 @@
 <template>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="#">NavBar</b-navbar-brand>
+      <b-navbar-brand href="#">Gestão de Consulta</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -21,5 +21,15 @@ export default {
 </script>
 
 <style scoped>
+
+nav {
+  width: 100%;
+  margin: 0;
+  position: absolute;
+  top: 0px;
+  margin-bottom: 25px;
+
+  display: flex;
+}
 
 </style>

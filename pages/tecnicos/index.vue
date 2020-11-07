@@ -29,5 +29,15 @@ export default {
 
 <style scoped>
 
+.container {
+  margin: 5vh auto;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5vh;
+}
+
 
 </style>
