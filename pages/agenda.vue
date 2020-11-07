@@ -1,7 +1,5 @@
 <template>
-  <div class="container">
-
-    <div>
+  <b-container class="container">
 
       <div>
         <h1 class="title">
@@ -24,7 +22,7 @@
       </b-form-group>
 
 
-      <fieldset id="fsTabela" style="">
+      <div id="fsTabela" style="">
         <div class="row">
           <b-table striped hover :busy="isBusy" :fields="fields" :items="disponiveis">
             <template #table-busy>
@@ -67,11 +65,9 @@
           </ul>
         </div>
 
-      </fieldset>
+      </div>
 
-
-    </div>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -125,30 +121,35 @@ export default {
   padding-left: 15px;
 }
 
+.links a {
+  padding: 5px 5px;
+  margin-left: 0;
+}
+
 
 .title {
-  font-family: 'Quicksand',
-  'Source Sans Pro',
-  -apple-system,
-  BlinkMacSystemFont,
-  'Segoe UI',
-  Roboto,
-  'Helvetica Neue',
-  Arial,
-  sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 32px;
-  color: #35495e;
-  letter-spacing: 1px;
+font-family: 'Quicksand',
+'Source Sans Pro',
+-apple-system,
+BlinkMacSystemFont,
+'Segoe UI',
+Roboto,
+'Helvetica Neue',
+Arial,
+sans-serif;
+display: block;
+font-weight: 300;
+font-size: 32px;
+color: #35495e;
+letter-spacing: 1px;
 }
 
 .subtitle {
-  font-weight: 300;
-  font-size: 1rem;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+font-weight: 300;
+font-size: 1rem;
+color: #526488;
+word-spacing: 5px;
+padding-bottom: 15px;
 }
 
 

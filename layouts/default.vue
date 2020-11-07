@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <b-container class="container">
     <Nuxt />
-  </div>
+  </b-container>
 </template>
 
 <style>
@@ -30,6 +30,17 @@ html {
   box-sizing: border-box;
   margin: 0;
 }
+
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
 
 .button--green {
   display: inline-block;
@@ -60,3 +71,10 @@ html {
   background-color: #35495e;
 }
 </style>
+<script>
+import Header from "./Header";
+
+export default {
+  components: {Header}
+}
+</script>
