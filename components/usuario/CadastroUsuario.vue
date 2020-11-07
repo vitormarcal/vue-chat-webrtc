@@ -5,6 +5,27 @@
       Novo Usuário
     </h1>
 
+    <b-form-group label="Nome:" label-for="input-nome">
+      <b-form-input
+        id="input-nome"
+        v-model="usuario.nome"
+        required
+        placeholder="Seu nome">
+
+      </b-form-input>
+
+    </b-form-group>
+
+    <b-form-group label="Telefone:" label-for="input-telefone">
+      <b-form-input
+        id="input-telefone"
+        type="tel"
+        v-model="usuario.telefone"
+        required
+        placeholder="Seu telefone">
+      </b-form-input>
+    </b-form-group>
+
     <b-form-group label="Escolha um nome de usuário:" label-for="input-username">
       <b-form-input
         v-model="usuario.username"

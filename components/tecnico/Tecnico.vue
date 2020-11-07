@@ -1,26 +1,5 @@
 <template>
   <div>
-    <b-form-group label="Nome:" label-for="input-nome">
-      <b-form-input
-        id="input-nome"
-        v-model="tecnico.nome"
-        required
-        placeholder="Seu nome">
-
-      </b-form-input>
-
-    </b-form-group>
-
-    <b-form-group label="Telefone:" label-for="input-telefone">
-      <b-form-input
-        id="input-telefone"
-        type="tel"
-        v-model="tecnico.telefone"
-        required
-        placeholder="Seu telefone">
-      </b-form-input>
-    </b-form-group>
-
     <selecao-especialidades :especialidade.sync="tecnico.especialidade"></selecao-especialidades>
 
 
