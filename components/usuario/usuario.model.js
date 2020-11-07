@@ -7,8 +7,8 @@ class UsuarioModel {
 
     if (data?.role.includes('admin')) {
       this.tipo = 'A'
-    } else if (data?.role.includes('medico')) {
-      this.tipo = 'M'
+    } else if (data?.role.includes('tecnico')) {
+      this.tipo = 'T'
     } else {
       this.tipo = 'U'
     }
@@ -18,8 +18,8 @@ class UsuarioModel {
   get role() {
     if (this.tipo === 'A') {
       return ['admin']
-    } else if (this.tipo === 'M') {
-      return ['medico']
+    } else if (this.tipo === 'T') {
+      return ['tecnico']
     } else {
       return ['user']
     }

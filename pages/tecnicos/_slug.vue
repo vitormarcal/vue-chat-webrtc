@@ -1,19 +1,19 @@
 <template>
   <div class="container">
-    <MedicoForm :medico.sync="medico" :editar="true"></MedicoForm>
+    <TecnicoForm :tecnico.sync="tecnico" :editar="true"></TecnicoForm>
   </div>
 </template>
 
 <script>
-import MedicoModel from "@/components/medico/medico.model.js";
-import MedicoForm from "@/components/medico/MedicoForm";
+import TecnicoModel from "@/components/tecnico/tecnico.model.js";
+import TecnicoForm from "@/components/tecnico/TecnicoForm";
 
 export default {
-  components: {MedicoForm},
+  components: {TecnicoForm},
   middleware: 'autenticado',
   data() {
     return {
-      medico: new MedicoModel()
+      tecnico: new TecnicoModel()
     }
   },
   async asyncData({params}) {
@@ -22,13 +22,13 @@ export default {
   },
   methods: {
     async consultar() {
-      const url = `${process.env.backendApi}/medicos/${this.id}`;
+      const url = `${process.env.backendApi}/tecnicos/${this.id}`;
       const resposta = await this.$axios.get(url, {
         headers: {
           'Authorization': this.usuarioCorrente?.accessToken
         }
       });
-      this.medico = new MedicoModel(resposta.data);
+      this.tecnico = new TecnicoModel(resposta.data);
     }
   },
   created() {

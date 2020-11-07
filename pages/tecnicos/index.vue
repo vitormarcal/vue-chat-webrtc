@@ -1,21 +1,21 @@
 <template>
   <div class="container">
-    <MedicoForm :medico.sync="medico" :editar="editar"></MedicoForm>
+    <TecnicoForm :tecnico.sync="tecnico" :editar="editar"></TecnicoForm>
   </div>
 
 </template>
 
 <script>
-import MedicoModel from "@/components/medico/medico.model.js";
-import MedicoForm from "@/components/medico/MedicoForm";
+import TecnicoModel from "@/components/tecnico/tecnico.model.js";
+import TecnicoForm from "@/components/tecnico/TecnicoForm";
 
 export default {
   name: "index",
   middleware: 'autenticado',
-  components: {MedicoForm},
+  components: {TecnicoForm},
   data() {
     return {
-      medico: new MedicoModel(),
+      tecnico: new TecnicoModel(),
       editar: false,
     }
   },
