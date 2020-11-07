@@ -65,10 +65,14 @@ export default {
             this.$router.push('/medicos');
           },
           error => {
-            const message =
-              (error.response && error.response.data) ||
-              error.message ||
-              error.toString();
+            let message = "Ocorreu um erro";
+            if (error.response && error.response.data) {
+              if (error.response.status === 401) {
+                message = "Usuário ou senha inválidos";
+              }
+            } else if (error.message) {
+              message = error.message;
+            }
             this.$bvToast.toast(message, {
               title: 'Entrar:',
               variant: 'danger',
@@ -84,7 +88,7 @@ export default {
         data => {
           this.$bvToast.toast(data.message, {
             title: 'Registrar:',
-            variant: 'sucesso',
+            variant: 'success',
             solid: true
           })
         },
