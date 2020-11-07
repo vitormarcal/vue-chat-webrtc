@@ -4,10 +4,12 @@ class UsuarioModel {
     this.username = data?.username;
     this.tipo = data?.tipo;
     this.password = data?.password;
+    this.roles = data?.roles;
+    this.accessToken = data?.accessToken;
 
-    if (data?.role.includes('admin')) {
+    if (data?.roles?.includes('ROLE_ADMIN')) {
       this.tipo = 'A'
-    } else if (data?.role.includes('tecnico')) {
+    } else if (data?.roles.includes('ROLE_TECNICO')) {
       this.tipo = 'T'
     } else {
       this.tipo = 'U'

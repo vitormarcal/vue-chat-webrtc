@@ -1,22 +1,51 @@
 <template>
-    <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="#">Gestão de Consulta</b-navbar-brand>
+  <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar-brand href="#">Gestão de Consulta</b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
-          <b-nav-item href="/tecnicos">Técnicos</b-nav-item>
-          <b-nav-item href="/agenda">Agendar</b-nav-item>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <template v-for="item in links">
+          <b-nav-item :href="item.link" v-if="item.active">{{ item.label }}</b-nav-item>
+        </template>
+        <b-nav-item v-if="logado" href="#" @click="sair">Sair</b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
 
 </template>
 
 <script>
 export default {
-  name: "NavBar"
+  name: "NavBar",
+  methods: {
+    sair() {
+      this.$store.dispatch("auth/logout")
+      this.$router.push("/")
+    }
+  },
+  computed: {
+    usuario() {
+      return this.$store.state.auth.user
+    },
+    logado() {
+      return this.$store.state.auth.logado
+    },
+    links() {
+      return [
+        {
+          link: '/tecnicos',
+          label: 'Técnicos',
+          active: this.logado && (this.usuario?.tipo === 'A' || this.usuario?.tipo === 'T')
+        },
+        {
+          link: '/agenda',
+          label: 'Agenda',
+          active: this.logado && (this.usuario?.tipo === 'A' || this.usuario?.tipo === 'U' || this.usuario?.tipo === 'T')
+        },
+      ];
+    }
+  }
 }
 </script>
 

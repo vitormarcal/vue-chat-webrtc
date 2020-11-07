@@ -1,8 +1,10 @@
 import AuthService from '../services/auth.service';
+import UsuarioModel from "../components/usuario/usuario.model";
 
 let user;
 if (process.browser) {
-  user = JSON.parse(localStorage.getItem('user'));
+  debugger
+  user = new UsuarioModel(JSON.parse(localStorage.getItem('user')))
 }
 
 export const state = () => ({
