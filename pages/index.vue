@@ -66,11 +66,11 @@ export default {
           },
           error => {
             let message = "Ocorreu um erro";
-            if (error.response && error.response.data) {
-              if (error.response.status === 401) {
-                message = "Usuário ou senha inválidos";
-              }
-            } else if (error.message) {
+            if (error?.response?.data?.message) {
+              message = error.response.data.message
+            } else if (error?.response?.status === 401) {
+              message = "Usuário ou senha inválidos";
+            } else if (error?.message) {
               message = error.message;
             }
             this.$bvToast.toast(message, {
@@ -93,10 +93,12 @@ export default {
           })
         },
         error => {
-          const message =
-            (error.response && error.response.data) ||
-            error.message ||
-            error.toString();
+          let message = "Ocorreu um erro";
+          if (error?.response?.data?.message) {
+            message = error.response.data.message
+          } else if (error?.message) {
+            message = error.message;
+          }
           this.$bvToast.toast(message, {
             title: 'Registrar:',
             variant: 'danger',
