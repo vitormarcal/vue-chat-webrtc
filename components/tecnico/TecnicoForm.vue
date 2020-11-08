@@ -1,10 +1,10 @@
 <template>
   <div>
     <h1 class="title" v-if="editar">
-      Editar Técnico
+      Cadastro do @{{ usuarioCorrente.username }}
     </h1>
     <h1 class="title" v-else>
-      {{ usuarioCorrente.username }}, complete seu cadastro.
+      @{{ usuarioCorrente.username }}, complete seu cadastro.
     </h1>
 
 
@@ -27,21 +27,23 @@ export default {
   methods: {
     salvarTecnico() {
 
-      this.$store.dispatch('tecnicos.service/setTecnico', this.tecnico)
+      this.$store.dispatch('tecnicos/criar', this.tecnico)
         .then(
           tecnicoSalvo => {
-            this.$emit("update:tecnico", new TecnicoModel(tecnicoSalvo));
+            this.$store.dispatch('auth/setCadastroCompleto')
             this.$bvToast.toast('Técnico salvo com sucesso', {
               title: 'Novo técnico:',
               variant: 'success',
               solid: true
             })
+            debugger
             setTimeout(() => {
               this.$router.push('/tecnicos/' + tecnicoSalvo.id)
             }, 1000);
           }
         ).catch(
         error => {
+          debugger
           let message = "Ocorreu um erro";
           if (error?.response?.data?.message) {
             message = error.response.data.message

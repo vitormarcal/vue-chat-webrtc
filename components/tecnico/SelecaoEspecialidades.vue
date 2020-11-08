@@ -16,7 +16,6 @@ export default {
   props: ['especialidade'],
   methods: {
     change(value) {
-      console.log("selecionou")
       this.$emit('change', value)
     }
   },

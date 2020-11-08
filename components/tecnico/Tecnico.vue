@@ -1,6 +1,6 @@
 <template>
   <div>
-    <selecao-especialidades :especialidade.sync="tecnico.especialidade"></selecao-especialidades>
+    <selecao-especialidades :especialidade.sync="tecnico.idEspecialidade"></selecao-especialidades>
 
 
     <b-form-group label="Atendo na:" label-for="checkbox-dias-da-semana">
@@ -12,9 +12,9 @@
       ></b-form-checkbox-group>
     </b-form-group>
 
-    <b-form-group label="Meus atendimentos duram:" label-for="duracaoAtendimento">
-      <b-form-timepicker id="duracaoAtendimento" v-model="tecnico.duracaoAtendimento"
-                         locale="en"></b-form-timepicker>
+    <b-form-group label="Meus atendimentos duram (min):" label-for="duracaoAtendimento">
+      <b-form-input type="number" id="duracaoAtendimento" v-model="tecnico.duracaoAtendimento"
+                         locale="en"></b-form-input>
 
     </b-form-group>
 
