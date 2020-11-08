@@ -15,7 +15,7 @@ export const state = () => ({
 export const mutations = {
   loginSuccess(state, user) {
     state.logado = true;
-    state.user = user;
+    state.user = new UsuarioModel(user);
   },
   loginFailure(state) {
     state.logado = false;
