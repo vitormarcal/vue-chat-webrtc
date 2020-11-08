@@ -10,7 +10,7 @@ import TecnicoForm from "@/components/tecnico/TecnicoForm";
 
 export default {
   components: {TecnicoForm},
-  middleware: 'autenticado',
+  middleware: ['autenticado', 'cadastro-incompleto'],
   data() {
     return {
       tecnico: new TecnicoModel()
