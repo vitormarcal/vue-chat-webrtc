@@ -36,14 +36,12 @@ export default {
               variant: 'success',
               solid: true
             })
-            debugger
             setTimeout(() => {
               this.$router.push('/tecnicos/' + tecnicoSalvo.id)
             }, 1000);
           }
         ).catch(
         error => {
-          debugger
           let message = "Ocorreu um erro";
           if (error?.response?.data?.message) {
             message = error.response.data.message
@@ -59,24 +57,33 @@ export default {
       )
     },
     editarTecnico() {
-      const url = `${process.env.backendApi}/tecnicos/`;
-      fetch(url, {
-        method: 'PUT',
-        body: JSON.stringify(this.tecnico),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': this.accessToken
-        }
-      }).then(r => r.json())
-        .then(tecnicoAtualizado => {
-          this.$emit("update:tecnico", new TecnicoModel(tecnicoAtualizado));
-          this.$bvToast.toast('Técnico atualizado com sucesso', {
-            title: 'Edição do técnico:',
-            variant: 'success',
+      this.$store.dispatch('tecnicos/editar', this.tecnico)
+        .then(
+          tecnicoSalvo => {
+            this.$bvToast.toast('Técnico atualizado com sucesso', {
+              title: 'Atualização do técnico:',
+              variant: 'success',
+              solid: true
+            })
+            setTimeout(() => {
+              this.$router.push('/tecnicos/' + tecnicoSalvo.id)
+            }, 1000);
+          }
+        ).catch(
+        error => {
+          let message = "Ocorreu um erro";
+          if (error?.response?.data?.message) {
+            message = error.response.data.message
+          } else if (error?.message) {
+            message = error.message;
+          }
+          this.$bvToast.toast(message, {
+            title: 'Cadastro de técnico:',
+            variant: 'danger',
             solid: true
           })
-        })
-        .catch(e => console.error(e))
+        }
+      )
     },
     resetar() {
       this.$emit("update:tecnico", new TecnicoModel());
