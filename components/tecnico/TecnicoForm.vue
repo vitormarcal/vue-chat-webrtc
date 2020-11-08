@@ -27,6 +27,14 @@ export default {
   methods: {
     salvarTecnico() {
 
+      if (!this.tecnico.horariosValidos()) {
+        this.$bvToast.toast('Horários inválios', {
+          title: 'Cadastro de técnico:',
+          variant: 'danger',
+          solid: true
+        })
+        return;
+      }
       this.$store.dispatch('tecnicos/criar', this.tecnico)
         .then(
           tecnicoSalvo => {
@@ -57,6 +65,14 @@ export default {
       )
     },
     editarTecnico() {
+      if (!this.tecnico.horariosValidos()) {
+        this.$bvToast.toast('Horários inválios', {
+          title: 'Cadastro de técnico:',
+          variant: 'danger',
+          solid: true
+        })
+        return;
+      }
       this.$store.dispatch('tecnicos/editar', this.tecnico)
         .then(
           tecnicoSalvo => {
@@ -86,7 +102,7 @@ export default {
       )
     },
     resetar() {
-      this.$emit("update:tecnico", new TecnicoModel());
+      this.$emit("update:tecnico", new TecnicoModel({id: this.tecnico.id}));
     }
   },
   computed: {
