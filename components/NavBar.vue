@@ -36,7 +36,12 @@ export default {
         {
           link: '/tecnicos',
           label: 'Técnicos',
-          active: this.logado && (this.usuario?.tipo === 'A' || this.usuario?.tipo === 'T')
+          active: this.logado && (this.usuario?.tipo === 'A')
+        },
+        {
+          link: '/tecnicos/' + this.usuario?.id,
+          label: 'Perfil',
+          active: this.logado && (this.usuario?.tipo === 'T')
         },
         {
           link: '/agenda',
