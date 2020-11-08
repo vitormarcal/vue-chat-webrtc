@@ -24,9 +24,33 @@ export const actions = {
       }
     ).catch(
       error => {
-        debugger
         return Promise.reject(error)
       }
     )
   },
+  editar({commit}, payload) {
+    return TecnicosService.editar(payload).then(
+      tecnicoSalvo => {
+        commit('SET_TECNICO', tecnicoSalvo);
+        return Promise.resolve(tecnicoSalvo);
+      }
+    ).catch(
+      error => {
+        return Promise.reject(error)
+      }
+    )
+  },
+  buscar({commit}, payload) {
+    return TecnicosService.buscar(payload).then(
+      tecnicoSalvo => {
+        commit('SET_TECNICO', tecnicoSalvo);
+        return Promise.resolve(tecnicoSalvo);
+      }
+    ).catch(
+      error => {
+        return Promise.reject(error)
+      }
+    )
+  },
+
 };

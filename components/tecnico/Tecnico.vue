@@ -14,25 +14,33 @@
 
     <b-form-group label="Meus atendimentos duram (min):" label-for="duracaoAtendimento">
       <b-form-input type="number" id="duracaoAtendimento" v-model="tecnico.duracaoAtendimento"
-                         locale="en"></b-form-input>
+                         locale="pt-BR"></b-form-input>
 
     </b-form-group>
 
     <b-form-group label="Inicio os trabalhos às:" label-for="inicioAtendimento">
       <b-form-timepicker id="inicioAtendimento" v-model="tecnico.inicioAtendimento"
-                         locale="en"></b-form-timepicker>
+                         :label-close-button="'Fechar'"
+                         :label-no-time-selected="'Selecione um horário'"
+                         locale="pt-BR"></b-form-timepicker>
     </b-form-group>
     <b-form-group label="Saio para descanso às:" label-for="saidaDescanso">
       <b-form-timepicker id="saidaDescanso" v-model="tecnico.saidaDescanso"
-                         locale="en"></b-form-timepicker>
+                         :label-close-button="'Fechar'"
+                         :label-no-time-selected="'Selecione um horário'"
+                         locale="pt-BR"></b-form-timepicker>
     </b-form-group>
     <b-form-group label="Volto do descanso às:" label-for="voltaDescanso">
       <b-form-timepicker id="voltaDescanso" v-model="tecnico.voltaDescanso"
-                         locale="en"></b-form-timepicker>
+                         :label-close-button="'Fechar'"
+                         :label-no-time-selected="'Selecione um horário'"
+                         locale="pt-BR"></b-form-timepicker>
     </b-form-group>
     <b-form-group label="Finalizo o expediente  às:" label-for="fimAtendimento">
       <b-form-timepicker id="fimAtendimento" v-model="tecnico.fimAtendimento"
-                         locale="en"></b-form-timepicker>
+                         :label-close-button="'Fechar'"
+                         :label-no-time-selected="'Selecione um horário'"
+                         locale="pt-BR"></b-form-timepicker>
 
     </b-form-group>
   </div>

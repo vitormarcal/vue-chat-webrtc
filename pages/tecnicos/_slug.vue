@@ -21,14 +21,27 @@ export default {
     return {id}
   },
   methods: {
-    async consultar() {
-      const url = `${process.env.backendApi}/tecnicos/${this.id}`;
-      const resposta = await this.$axios.get(url, {
-        headers: {
-          'Authorization': this.usuarioCorrente?.accessToken
+    consultar() {
+      this.$store.dispatch('tecnicos/buscar', this.id)
+        .then(
+          tecnicoSalvo => {
+            this.tecnico = new TecnicoModel(tecnicoSalvo);
+          }
+        ).catch(
+        error => {
+          let message = "Ocorreu um erro";
+          if (error?.response?.data?.message) {
+            message = error.response.data.message
+          } else if (error?.message) {
+            message = error.message;
+          }
+          this.$bvToast.toast(message, {
+            title: 'Busca de técnico:',
+            variant: 'danger',
+            solid: true
+          })
         }
-      });
-      this.tecnico = new TecnicoModel(resposta.data);
+      )
     }
   },
   created() {

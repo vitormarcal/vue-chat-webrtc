@@ -1,7 +1,8 @@
 class TecnicoModel {
   constructor(data) {
     this.id = data?.id;
-    this.idEspecialidade = data?.idEspecialidade;
+    this.especialidade = data?.especialidade
+    this.idEspecialidade = data?.especialidade?.id;
     this.duracaoAtendimento = data?.duracaoAtendimento;
     this.diasQueAtende = data?.diasQueAtende?.split(',');
     this.inicioAtendimento = data?.inicioAtendimento;

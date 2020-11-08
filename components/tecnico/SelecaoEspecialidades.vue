@@ -30,7 +30,7 @@ export default {
     },
     valor: {
       get: function () {
-        this.especialidade
+        return this.especialidade
       },
       set: function (newValue) {
         this.$emit('update:especialidade', newValue)
