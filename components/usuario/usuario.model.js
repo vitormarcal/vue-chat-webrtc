@@ -20,6 +20,15 @@ class UsuarioModel {
     }
 
   }
+  includes(tipo) {
+    if (tipo === 'A') {
+      return this.roles?.includes('ROLE_ADMIN')
+    } else if (this.tipo === 'T') {
+      return this.roles?.includes('ROLE_TECNICO')
+    } else {
+      return this.roles?.includes('ROLE_USER')
+    }
+  }
 
   get role() {
     if (this.tipo === 'A') {

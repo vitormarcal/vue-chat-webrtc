@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="info">
+  <b-navbar toggleable="lg" type="dark" variant="info" v-if="this.logado">
     <b-navbar-brand href="#">Gestão de Consulta</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -36,17 +36,17 @@ export default {
         {
           link: '/tecnicos',
           label: 'Técnicos',
-          active: this.logado && (this.usuario?.tipo === 'A')
+          active: this.logado && this.usuario?.includes('A')
         },
         {
           link: '/tecnicos/' + this.usuario?.id,
           label: 'Perfil',
-          active: this.logado && (this.usuario?.tipo === 'T')
+          active: this.logado && this.usuario?.includes('T')
         },
         {
           link: '/agenda',
           label: 'Agenda',
-          active: this.logado && (this.usuario?.tipo === 'A' || this.usuario?.tipo === 'U' || this.usuario?.tipo === 'T')
+          active: this.logado
         },
       ];
     }
