@@ -32,7 +32,6 @@ export default {
       return this.$store.state.auth.logado
     },
     links() {
-      debugger
       return [
         {
           link: '/tecnicos',
