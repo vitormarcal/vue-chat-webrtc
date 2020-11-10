@@ -61,7 +61,7 @@ export default {
         {text: 'Quarta', value: 'QUARTA'},
         {text: 'Quinta', value: 'QUINTA'},
         {text: 'Sexta', value: 'SEXTA'},
-        {text: 'Sabádo', value: 'SABADAO'},
+        {text: 'Sabádo', value: 'SABADO'},
         {text: 'Domingo', value: 'DOMINGO'},
       ],
     }
