@@ -48,6 +48,11 @@ export default {
           label: 'Agenda',
           active: this.logado
         },
+        {
+          link: '/atendimento',
+          label: 'Atendimento',
+          active: this.logado
+        },
       ];
     }
   }
