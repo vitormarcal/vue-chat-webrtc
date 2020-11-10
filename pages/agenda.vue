@@ -37,7 +37,7 @@
             </div>
           </template>
           <template #cell(selecionar)="row">
-            <b-form-checkbox v-model="row.item.selecionado">
+            <b-form-checkbox :disabled="selecao.selecionado && selecao !== row.item" v-model="row.item.selecionado">
 
             </b-form-checkbox>
           </template>
@@ -52,6 +52,18 @@
         ></b-pagination>
       </div>
 
+    </div>
+
+    <div class="table-footer">
+      <div class="table-options" :class="{'table-options--show':this.selecao.selecionado}">
+        <span class="table-options__number">{{this.selecao.dataMarcada}} {{this.selecao.horario}}</span>
+        <span class="table-options__text">
+                    {{this.selecao.especialidade}}
+                </span>
+        <b-button variant="primary">
+          Agendar
+        </b-button>
+      </div>
     </div>
 
   </b-container>
@@ -100,6 +112,9 @@ export default {
       ConsultaService.buscarTodasDisponiveis({data: this.diaDaConsulta, idEspecialidade: this.idEspecialidade})
         .then(lista => {
           this.disponiveis = lista;
+          this.disponiveis.forEach(item => {
+            item.horario = item.horario.substring(0, 5)
+          })
         }).catch(error => this.$bvToast.toast("Erro ao buscar horários disponiveis", {
         title: 'Agenda:',
         variant: 'danger',
@@ -112,6 +127,9 @@ export default {
   computed: {
     rows() {
       return this.disponiveis.length
+    },
+    selecao() {
+      return this.disponiveis.find(i => i.selecionado) || {};
     }
   },
   mounted() {
@@ -135,6 +153,60 @@ export default {
 .links a {
   padding: 5px 5px;
   margin-left: 0;
+}
+
+
+#fsTabela {
+  padding-bottom: 4rem;
+}
+
+.table-footer {
+  text-align: center;
+}
+
+
+.table-options {
+  position: fixed;
+  width: 100%;
+  background: #FFF;
+  bottom: 0;
+  left: 0;
+  box-shadow: 0px -10px 12px 0px rgba(0, 0, 0, 0.06);
+  padding: 15px 50px;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 15px;
+  align-items: center;
+  transform: translateY(110%);
+  transition: transform 0.3s ease-out;
+  z-index: 99;
+}
+
+.table-options--show {
+  transform: translateY(0);
+}
+
+span.table-options__number {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1em;
+}
+
+.table-options__text {
+  flex-grow: 1;
+  text-align: left;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  span.table-options__number {
+    font-size: 15px;
+  }
+
+  .table-options__text {
+    font-size: 15px;
+  }
 }
 
 
