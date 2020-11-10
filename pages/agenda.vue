@@ -24,7 +24,12 @@
 
     <div id="fsTabela" style="">
       <div class="row">
-        <b-table striped hover :busy="isBusy" :fields="fields" :items="disponiveis">
+        <b-table striped hover id="tabela-disponiveis"
+                 :busy="isBusy"
+                 :fields="fields"
+                 :per-page="perPage"
+                 :current-page="currentPage"
+                 :items="disponiveis">
           <template #table-busy>
             <div class="text-center text-danger my-2">
               <b-spinner class="align-middle"></b-spinner>
@@ -38,31 +43,13 @@
           </template>
         </b-table>
       </div>
-      <div class="row align-items-center">
-
-        <ul class="pagination ">
-          <li class="paginate_button first disabled links" id="tblTabela_first"><a href="#" class="button--grey"
-                                                                                   aria-controls="tblTabela"
-                                                                                   data-dt-idx="0"
-                                                                                   tabindex="0">Primeiro</a>
-          </li>
-          <li class="paginate_button previous disabled links" id="tblTabela_previous"><a href="#"
-                                                                                         class="button--grey"
-                                                                                         aria-controls="tblTabela"
-                                                                                         data-dt-idx="1"
-                                                                                         tabindex="0">Anterior</a>
-          </li>
-          <li class="paginate_button next disabled links" id="tblTabela_next"><a href="#" class="button--grey"
-                                                                                 aria-controls="tblTabela"
-                                                                                 data-dt-idx="2"
-                                                                                 tabindex="0">Próximo</a>
-          </li>
-          <li class="paginate_button last disabled links" id="tblTabela_last"><a href="#" class="button--grey"
-                                                                                 aria-controls="tblTabela"
-                                                                                 data-dt-idx="3"
-                                                                                 tabindex="0">Último</a>
-          </li>
-        </ul>
+      <div class="center">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="tabela-disponiveis"
+        ></b-pagination>
       </div>
 
     </div>
@@ -102,6 +89,8 @@ export default {
         {key: 'horario', label: 'Horário'},
         {key: 'especialidade', label: 'Especialidade'},
       ],
+      perPage: 10,
+      currentPage: 1,
       disponiveis: []
     }
   },
@@ -120,6 +109,11 @@ export default {
       })
     },
   },
+  computed: {
+    rows() {
+      return this.disponiveis.length
+    }
+  },
   mounted() {
     this.filtrar();
   }
@@ -136,11 +130,6 @@ export default {
   align-items: center;
   text-align: center;
   padding: 5vh;
-}
-
-.links {
-  padding-top: 15px;
-  padding-left: 15px;
 }
 
 .links a {
