@@ -56,11 +56,11 @@
 
     <div class="table-footer">
       <div class="table-options" :class="{'table-options--show':this.selecao.selecionado}">
-        <span class="table-options__number">{{this.selecao.dataMarcada}} {{this.selecao.horario}}</span>
+        <span class="table-options__number">{{ this.selecao.dataMarcada }} {{ this.selecao.horario }}</span>
         <span class="table-options__text">
-                    {{this.selecao.especialidade}}
+                    {{ this.selecao.especialidade }}
                 </span>
-        <b-button variant="primary">
+        <b-button variant="primary" @click="agendar()">
           Agendar
         </b-button>
       </div>
@@ -107,6 +107,34 @@ export default {
     }
   },
   methods: {
+    agendar() {
+      if (this.usuarioCorrente.includes('U')) {
+        ConsultaService.agendarParaUsuario(this.selecao.idConsulta)
+          .then(consulta => {
+            this.$bvToast.toast(
+              `Consulta agendada com sucesso! Data: ${consulta.dataMarcada} Horário: ${consulta.inicioHorario}`, {
+                title: 'Agenda:',
+                variant: 'success',
+                solid: true
+              })
+            this.filtrar()
+          }).catch(error => this.$bvToast.toast(
+          "Erro ao agendar a consulta. Contacte o administrador", {
+            title: 'Agenda:',
+            variant: 'danger',
+            solid: true
+          })).finally(() => {
+          this.isBusy = false
+        })
+      } else {
+        this.$bvToast.toast(
+          "Sem permissões de agendamento", {
+            title: 'Agenda:',
+            variant: 'danger',
+            solid: true
+          })
+      }
+    },
     filtrar() {
       this.isBusy = true
       ConsultaService.buscarTodasDisponiveis({data: this.diaDaConsulta, idEspecialidade: this.idEspecialidade})
@@ -130,6 +158,9 @@ export default {
     },
     selecao() {
       return this.disponiveis.find(i => i.selecionado) || {};
+    },
+    usuarioCorrente() {
+      return this.$store.state.auth.user;
     }
   },
   mounted() {
