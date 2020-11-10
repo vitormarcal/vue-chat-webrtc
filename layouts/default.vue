@@ -1,7 +1,7 @@
 <template>
-  <b-container class="container">
+  <b-container class="container-page">
     <nav-bar></nav-bar>
-    <Nuxt class="container"/>
+    <Nuxt class="container-page"/>
   </b-container>
 </template>
 
@@ -32,9 +32,17 @@ html {
   margin: 0;
 }
 
-.container {
+.container-page {
   margin: 0 auto;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.center {
   display: flex;
   justify-content: center;
   align-items: center;
