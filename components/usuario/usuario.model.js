@@ -23,12 +23,12 @@ class UsuarioModel {
   includes(tipo) {
     if (tipo === 'A') {
       return this.roles?.includes('ROLE_ADMIN')
-    } else if (this.tipo === 'T') {
+    } else if (tipo === 'T') {
       return this.roles?.includes('ROLE_TECNICO')
-    } else if('U') {
+    } else if(tipo === 'U') {
       return this.roles?.includes('ROLE_USER')
     }
-    return this.roles?.includes('ROLE_USER')
+    return false;
   }
 
   get role() {
