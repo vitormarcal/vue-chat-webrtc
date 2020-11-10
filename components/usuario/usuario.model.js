@@ -25,9 +25,10 @@ class UsuarioModel {
       return this.roles?.includes('ROLE_ADMIN')
     } else if (this.tipo === 'T') {
       return this.roles?.includes('ROLE_TECNICO')
-    } else {
+    } else if('U') {
       return this.roles?.includes('ROLE_USER')
     }
+    return this.roles?.includes('ROLE_USER')
   }
 
   get role() {

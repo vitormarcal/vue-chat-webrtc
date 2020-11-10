@@ -5,14 +5,28 @@ const API_URL = `${process.env.backendApi}/consultas/disponiveis`;
 
 class ConsultaService {
   buscarTodasDisponiveis(filtro) {
-   const data = filtro?.data || '';
-   const idEspecialidade = filtro?.idEspecialidade || '';
+    const data = filtro?.data || '';
+    const idEspecialidade = filtro?.idEspecialidade || '';
 
     let url = `${API_URL}?data=${data}&idEspecialidade=${idEspecialidade}`;
 
     return axios
       .get(url,
-        { headers: authHeader() }
+        {headers: authHeader()}
+      )
+      .then(response => {
+        return response.data;
+      });
+  };
+
+  agendarParaUsuario(idConsulta) {
+
+    let url = `${API_URL}/${idConsulta}`;
+
+    return axios
+      .put(url,
+        {},
+        {headers: authHeader()}
       )
       .then(response => {
         return response.data;
