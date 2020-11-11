@@ -9,7 +9,7 @@
         Você está no atendimento agendado para a especialidade {{ this.tituloChat }}
       </p>
 
-      <chat :to="destinatario" :title="this.tituloChat" :from="this.usuarioCorrente"></chat>
+      <chat :to="destinatario" :id-consulta="this.id" :title="this.tituloChat" :from="this.usuarioCorrente" :iniciar-em="this.dataConsulta"></chat>
 
     </div>
   </b-container>
@@ -38,6 +38,12 @@ export default {
     },
     tituloChat() {
       return this.consulta?.especialidade;
+    },
+    dataConsulta() {
+      if (this.consulta?.dataConsulta) {
+        return new Date(this.consulta.dataConsulta);
+      }
+      return null;
     },
     destinatario() {
       if (this.usuarioCorrente.id === this.consulta?.idUsuarioTecnico) {
