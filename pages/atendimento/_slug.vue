@@ -59,6 +59,9 @@ export default {
     ConsultaService.buscarConsulta(this.id)
       .then(
         consulta => {
+          if (consulta == null) {
+            throw new Error("Consulta não encontrada")
+          }
           this.consulta = consulta;
         }
       )
@@ -75,6 +78,10 @@ export default {
             variant: 'danger',
             solid: true
           })
+
+          setTimeout(() => {
+            this.$router.push('/agenda/' )
+          },1000);
         }
       )
   }

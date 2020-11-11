@@ -38,39 +38,27 @@ export default {
     return {
       message: '',
       messages: [],
-      sessionId: null
     }
   },
   methods: {
     connect() {
-      const url = `${process.env.backendApi}/secured/room?access_token=${this.usuarioCorrente.accessToken}`;
-      this.socket = new SockJS(url);
-      this.stompClient = Stomp.over(this.socket);
-      this.stompClient.connect(
-        {},
-        frame => {
-
-          let sessionId = this.stompClient.ws._transport.url;
-          sessionId = sessionId.replace(`${process.env.ws}/secured/room`, "");
-          sessionId = sessionId.replace(`/websocket?access_token=${this.usuarioCorrente.accessToken}`, '');
-          sessionId = sessionId.replace(/\/[0-9]+\//, "");
-          console.log("Your current session is: " + sessionId);
-          this.sessionId = sessionId
-
-          this.connected = true;
-          this.stompClient.subscribe(
-            `/secured/room/queue-user${sessionId}`,
-            evento => {
-              this.messages.push(JSON.parse(evento.body))
-            });
-        },
-        error => {
-          console.log(error);
-          this.connected = false;
-        }
-      );
-
-
+      if (this.url) {
+        this.stompClient.connect(
+          {},
+          frame => {
+            this.connected = true;
+            this.stompClient.subscribe(
+              `/secured/room/queue-user${this.sessionId}`,
+              evento => {
+                this.messages.push(JSON.parse(evento.body))
+              });
+          },
+          error => {
+            console.log(error);
+            this.connected = false;
+          }
+        );
+      }
     },
     disconnect() {
       if (this.stompClient) {
@@ -106,9 +94,31 @@ export default {
   computed: {
     usuarioCorrente() {
       return this.$store.state.auth.user;
+    },
+    url() {
+      if (this.usuarioCorrente?.accessToken) {
+        return `${process.env.backendApi}/secured/room?access_token=${this.usuarioCorrente.accessToken}`;
+      }
+      return null;
+    },
+    socket() {
+      return new SockJS(this.url);
+    },
+    stompClient() {
+      if (this.socket) {
+        return Stomp.over(this.socket);
+      }
+    },
+    sessionId() {
+      let sessionId = this.stompClient.ws._transport.url;
+      sessionId = sessionId.substr(sessionId.indexOf('/secured/room') + 13);
+      sessionId = sessionId.replace(`/websocket?access_token=${this.usuarioCorrente.accessToken}`, '');
+      sessionId = sessionId.replace(/\/[0-9]+\//, "");
+      console.log("Your current session is: " + sessionId);
+      return sessionId;
     }
   },
-  created() {
+  mounted() {
     this.tickleConnection()
   },
   watch: {
