@@ -5,11 +5,36 @@
         Chat de Teleatendimento
       </h1>
 
-      <p class="subtitle" v-show="this.consulta">
+      <p class="subtitle" v-if="this.podeConversarNoChat">
         Você está no atendimento agendado para a especialidade {{ this.tituloChat }}
+
       </p>
 
-      <chat :to="destinatario" :id-consulta="this.id" :title="this.tituloChat" :from="this.usuarioCorrente" :iniciar-em="this.dataConsulta"></chat>
+      <p class="subtitle" v-else>
+        Você está vizualizando o histórico do atendimento para a especialidade {{ this.tituloChat }}
+        <br>
+        <template v-if="this.fimConsulta">
+          O atendimento já foi finalizado: {{ this.dataConsulta }}
+        </template>
+
+      </p>
+
+
+      <chat v-if="this.podeVisualizarChat"
+            :to="destinatario"
+            :id-consulta="this.id"
+            :title="this.tituloChat"
+            :ativo="podeConversarNoChat"
+            :from="this.usuarioCorrente"
+            :mensagens.sync="mensagens"
+            >
+
+      </chat>
+
+      <div v-else>
+        <b-spinner small label="Small Spinner"></b-spinner>
+        <b-spinner small label="Small Spinner" type="grow"></b-spinner>
+      </div>
 
     </div>
   </b-container>
@@ -26,13 +51,36 @@ export default {
   data() {
     return {
       consulta: null,
+      podeVisualizarChat: false,
+      mensagens: [],
+      interval: null
     }
   },
   async asyncData({params}) {
     const id = params.slug;
     return {id}
   },
+  methods: {
+    montarRegras() {
+      const that = this;
+      this.interval = setInterval(() => {
+        if (!that.podeVisualizarChat) {
+          if (that.dataConsulta && that.fimConsulta) {
+            that.podeVisualizarChat = true;
+          } else if (that.dataConsulta && !that.fimConsulta && new Date().getTime() >= that.dataConsulta.getTime() ){
+            that.podeVisualizarChat =  true;
+          }
+        }
+        if (that.podeVisualizarChat) {
+          clearInterval(that.interval)
+        }
+      }, 1000)
+    }
+  },
   computed: {
+    podeConversarNoChat() {
+      return this.podeVisualizarChat && !this.fimConsulta
+    },
     usuarioCorrente() {
       return this.$store.state.auth.user;
     },
@@ -40,10 +88,10 @@ export default {
       return this.consulta?.especialidade;
     },
     dataConsulta() {
-      if (this.consulta?.dataConsulta) {
-        return new Date(this.consulta.dataConsulta);
-      }
-      return null;
+      return this.consulta?.dataConsulta ?  new Date(this.consulta.dataConsulta) : null
+    },
+    fimConsulta() {
+      return this.consulta?.fimConsulta ?  new Date(this.consulta.fimConsulta) : null;
     },
     destinatario() {
       if (this.usuarioCorrente.id === this.consulta?.idUsuarioTecnico) {
@@ -61,14 +109,42 @@ export default {
       }
     }
   },
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
+  beforeRouteLeave(to, from, next) {
+    clearInterval(this.interval)
+    next();
+  },
   mounted() {
+    this.montarRegras();
     ConsultaService.buscarConsulta(this.id)
       .then(
         consulta => {
           if (consulta == null) {
             throw new Error("Consulta não encontrada")
           }
+          if (!consulta.idUsuario) {
+            this.$bvToast.toast("Essa consulta ainda não foi agendada", {
+              title: 'Busca da consulta:',
+              variant: 'danger',
+              solid: true
+            })
+
+            setTimeout(() => {
+              this.$router.push('/agenda/')
+            }, 1000);
+          }
           this.consulta = consulta;
+          ConsultaService.buscarMensagens(this.id)
+            .then(
+              mensagens => {
+                if (mensagens != null) {
+                  this.mensagens = mensagens;
+                }
+              }
+            )
+
         }
       )
       .catch(
@@ -86,8 +162,8 @@ export default {
           })
 
           setTimeout(() => {
-            this.$router.push('/agenda/' )
-          },1000);
+            this.$router.push('/agenda/')
+          }, 1000);
         }
       )
   }
