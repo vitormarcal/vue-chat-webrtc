@@ -3,8 +3,7 @@ export default {
   target: 'static',
 
   env: {
-    backendApi: process.env.BACKEND_API || 'http://localhost:8080',
-    ws: process.env.ws || 'ws://localhost:8080'
+    backendApi: 'https://sismedicina.herokuapp.com' || 'http://localhost:8080',
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
