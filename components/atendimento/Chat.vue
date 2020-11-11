@@ -33,11 +33,13 @@ import Stomp from "webstomp-client";
 
 export default {
   name: "Chat",
-  props: ['to', 'title'],
+  props: ['to', 'title', 'iniciarEm', 'idConsulta'],
   data() {
     return {
       message: '',
       messages: [],
+      conectado: false,
+      chatLiberado: false,
     }
   },
   methods: {
@@ -46,7 +48,7 @@ export default {
         this.stompClient.connect(
           {},
           frame => {
-            this.connected = true;
+            this.conectado = true;
             this.stompClient.subscribe(
               `/secured/room/queue-user${this.sessionId}`,
               evento => {
@@ -55,7 +57,7 @@ export default {
           },
           error => {
             console.log(error);
-            this.connected = false;
+            this.conectado = false;
           }
         );
       }
@@ -64,13 +66,13 @@ export default {
       if (this.stompClient) {
         this.stompClient.disconnect();
       }
-      this.connected = false;
+      this.conectado = false;
     },
     tickleConnection() {
-      if (!this.connected) {
+      if (!this.conectado) {
         setTimeout(() => {
           console.log("Vou tentar conectar ao websocket em 2s!")
-          this.connected = true;
+          this.conectado = true;
           this.connect();
         }, 2000);
 
@@ -81,9 +83,10 @@ export default {
       const agora = new Date();
       const time = `${agora.getHours()}:${agora.getMinutes()}`
       let msg = {
-        from: this.usuarioCorrente.username,
-        to: this.to.nome,
-        text: this.message,
+        de: this.usuarioCorrente.username,
+        para: this.to.nome,
+        texto: this.message,
+        idConsulta: this.id,
         time: time
       };
       this.messages.push(msg)
@@ -122,9 +125,9 @@ export default {
     this.tickleConnection()
   },
   watch: {
-    connected() {
+    conectado() {
       this.tickleConnection()
-    }
+    },
   }
 }
 </script>
