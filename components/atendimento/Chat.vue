@@ -2,7 +2,7 @@
   <div class="card mt-3">
     <div class="card-body">
       <div class="card-title">
-        <h3>Chat Group</h3>
+        <h3>Você está conversando com @{{to.nome}}</h3>
         <hr>
       </div>
       <div class="card-body">
@@ -13,13 +13,15 @@
     </div>
     <div class="card-footer">
       <form @submit.prevent="sendMessage">
-        <div class="gorm-group">
-          @{{ usuarioCorrente.username }}
-        </div>
-        <div class="gorm-group pb-3">
-          <label for="message">Message:</label>
-          <input type="text" v-model="message" class="form-control">
-        </div>
+        <b-form-group label="Você: " label-for="input-mensagem">
+          <b-form-input
+            v-model="message"
+            id="input-mensagem"
+            required
+            placeholder="Digite uma mensangem">
+
+          </b-form-input>
+        </b-form-group>
         <button type="submit" class="btn btn-success">Send</button>
       </form>
     </div>
@@ -31,6 +33,7 @@ import Stomp from "webstomp-client";
 
 export default {
   name: "Chat",
+  props: ['to', 'title'],
   data() {
     return {
       message: '',
@@ -88,11 +91,11 @@ export default {
     sendMessage(e) {
       e.preventDefault();
       let msg = {
-        from: this.sessionId,
-        to: this.sessionId,
+        from: this.usuarioCorrente.username,
+        to: this.to.nome,
         text: this.message
       };
-      console.log(msg)
+      this.messages.push(msg)
       this.stompClient.send('/secured/room', JSON.stringify(msg), {});
       this.message = ''
     }
