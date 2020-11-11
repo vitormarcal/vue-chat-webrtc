@@ -44,6 +44,17 @@ class ConsultaService {
       });
   }
 
+  buscarMensagens(idConsulta) {
+    let url = `${API_URL}/${idConsulta}/mensagens`;
+    return axios
+      .get(url ,
+        {headers: authHeader()}
+      )
+      .then(response => {
+        return response.data;
+      });
+  }
+
 }
 
 export default new ConsultaService();

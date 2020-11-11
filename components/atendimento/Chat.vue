@@ -2,11 +2,12 @@
   <div class="card mt-3">
     <div class="card-body">
       <div class="card-title">
-        <h3>Você está conversando com @{{to.nome}}</h3>
+        <h3 v-if="chatAtivo">Você está conversando com @{{to.nome}}</h3>
+        <h3 v-else>Você estava conversando com @{{to.nome}}</h3>
         <hr>
       </div>
       <div class="card-body">
-        <div class="messages" v-for="(msg, index) in messages" :key="index">
+        <div class="messages" v-for="(msg, index) in mensagens" :key="index">
           <p><span class="font-weight-bold">{{msg.time}} {{ msg.de }}: </span>{{ msg.texto }}</p>
         </div>
       </div>
@@ -15,16 +16,24 @@
       <form @submit.prevent="sendMessage">
         <b-form-group label="Você: " label-for="input-mensagem">
           <b-form-input
-            v-model="message"
+            v-model="mensagem"
             id="input-mensagem"
+            :disabled="!chatAtivo"
             required
             placeholder="Digite uma mensangem">
 
           </b-form-input>
         </b-form-group>
-        <button type="submit" class="btn btn-success">Send</button>
+        <button type="submit" :disabled="!chatAtivo" class="btn btn-success">Enviar</button>
+        <button  v-if="chatAtivo" class="btn btn-danger" @click="finalizarChat">Finalizar chat</button>
       </form>
     </div>
+
+    <b-modal id="modal-finalizar-chat" title="Cadastro de usuário" @ok="finalizarComMensagem">
+      <p class="title">
+        Tem certeza que deseja finalizar o chat? Não poderá ser revertido e a consulta será finalizada!
+      </p>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -33,13 +42,12 @@ import Stomp from "webstomp-client";
 
 export default {
   name: "Chat",
-  props: ['to', 'title', 'iniciarEm', 'idConsulta'],
+  props: ['to', 'title', 'iniciarEm', 'idConsulta', 'mensagens', 'ativo'],
   data() {
     return {
-      message: '',
-      messages: [],
+      mensagem: '',
+      exited: false,
       conectado: false,
-      chatLiberado: false,
     }
   },
   methods: {
@@ -52,7 +60,7 @@ export default {
             this.stompClient.subscribe(
               `/secured/room/queue-user${this.sessionId}`,
               evento => {
-                this.messages.push(JSON.parse(evento.body))
+                this.mensagens.push(JSON.parse(evento.body))
               });
           },
           error => {
@@ -61,6 +69,9 @@ export default {
           }
         );
       }
+    },
+    finalizarChat() {
+      this.$bvModal.show('modal-finalizar-chat')
     },
     disconnect() {
       if (this.stompClient) {
@@ -79,22 +90,40 @@ export default {
       }
     },
     sendMessage(e) {
-      e.preventDefault();
+      if(e) {
+        e.preventDefault();
+      }
       const agora = new Date();
       const time = `${agora.getHours()}:${agora.getMinutes()}`
+
       let msg = {
         de: this.usuarioCorrente.username,
         para: this.to.nome,
-        texto: this.message,
-        idConsulta: this.id,
-        time: time
+        texto: this.mensagem,
+        idConsulta: this.idConsulta,
+        time: time,
+        exited: this.exited
       };
-      this.messages.push(msg)
+      this.mensagens.push(msg)
       this.stompClient.send('/secured/room', JSON.stringify(msg), {});
-      this.message = ''
+      this.mensagem = '';
+    },
+    finalizarComMensagem() {
+      this.mensagem='Saí da sala';
+      this.exited = true
+      this.sendMessage();
+      this.disconnect();
     }
   },
   computed: {
+    chatAtivo() {
+      if (this.ativo && this.conectado) {
+        const mensagemDeSaida = this.mensagens.find(m => m.exited)
+        return !mensagemDeSaida;
+      } else {
+        return false
+      }
+    },
     usuarioCorrente() {
       return this.$store.state.auth.user;
     },
