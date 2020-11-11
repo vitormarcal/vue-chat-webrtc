@@ -7,7 +7,7 @@
       </div>
       <div class="card-body">
         <div class="messages" v-for="(msg, index) in messages" :key="index">
-          <p><span class="font-weight-bold">{{msg.time}} {{ msg.from }}: </span>{{ msg.text }}</p>
+          <p><span class="font-weight-bold">{{msg.time}} {{ msg.de }}: </span>{{ msg.texto }}</p>
         </div>
       </div>
     </div>
