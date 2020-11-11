@@ -7,7 +7,7 @@
       </div>
       <div class="card-body">
         <div class="messages" v-for="(msg, index) in messages" :key="index">
-          <p><span class="font-weight-bold">{{ msg.from }}: </span>{{ msg.text }}</p>
+          <p><span class="font-weight-bold">{{msg.time}} {{ msg.from }}: </span>{{ msg.text }}</p>
         </div>
       </div>
     </div>
@@ -90,10 +90,13 @@ export default {
     },
     sendMessage(e) {
       e.preventDefault();
+      const agora = new Date();
+      const time = `${agora.getHours()}:${agora.getMinutes()}`
       let msg = {
         from: this.usuarioCorrente.username,
         to: this.to.nome,
-        text: this.message
+        text: this.message,
+        time: time
       };
       this.messages.push(msg)
       this.stompClient.send('/secured/room', JSON.stringify(msg), {});
