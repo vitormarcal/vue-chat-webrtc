@@ -9,7 +9,7 @@ if (process.browser) {
 export const state = () => ({
   user: user,
   accessToken: user?.accessToken ? `Bearer ${user.accessToken}` : undefined,
-  logado: !!user
+  logado: !!user?.accessToken
 });
 
 export const mutations = {
