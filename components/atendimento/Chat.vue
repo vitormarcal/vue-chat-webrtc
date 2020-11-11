@@ -7,7 +7,7 @@
       </div>
       <div class="card-body">
         <div class="messages" v-for="(msg, index) in messages" :key="index">
-          <p><span class="font-weight-bold">{{ msg.user }}: </span>{{ msg.message }}</p>
+          <p><span class="font-weight-bold">{{ msg.from }}: </span>{{ msg.text }}</p>
         </div>
       </div>
     </div>
@@ -55,12 +55,10 @@ export default {
           this.sessionId = sessionId
 
           this.connected = true;
-          this.stompClient.subscribe('secured/user/queue/specific-user',
+          this.stompClient.subscribe(
+            `/secured/room/queue-user${sessionId}`,
             evento => {
-              debugger
-              const ev = JSON.parse(evento);
-              console.log("Evento: " + JSON.parse(evento));
-              this.messages.push(ev)
+              this.messages.push(JSON.parse(evento.body))
             });
         },
         error => {
