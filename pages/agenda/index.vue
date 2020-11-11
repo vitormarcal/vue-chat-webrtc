@@ -70,8 +70,8 @@
 </template>
 
 <script>
-import SelecaoEspecialidades from "../components/tecnico/SelecaoEspecialidades";
-import ConsultaService from "../services/consulta.service";
+import SelecaoEspecialidades from "../../components/tecnico/SelecaoEspecialidades";
+import ConsultaService from "../../services/consulta.service";
 
 function formatDate(date) {
   let d = new Date(date);
@@ -88,7 +88,6 @@ function formatDate(date) {
 }
 
 export default {
-  name: "agenda.vue",
   components: {SelecaoEspecialidades},
   middleware: ['autenticado', 'cadastro-incompleto'],
   data() {
