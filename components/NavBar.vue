@@ -49,11 +49,6 @@ export default {
           active: this.logado
         },
         {
-          link: '/agenda/tecnico/',
-          label: 'Minha Agenda',
-          active: this.logado && this.usuario?.includes('T')
-        },
-        {
           link: '/agenda/itens/',
           label: 'Minhas marcações',
           active: this.logado
