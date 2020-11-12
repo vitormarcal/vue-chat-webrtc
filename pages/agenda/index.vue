@@ -97,8 +97,8 @@ export default {
       idEspecialidade: null,
       fields: [
         {key: 'selecionar', label: 'Seleção'},
-        {key: 'horario', label: 'Horário'},
-        {key: 'especialidade', label: 'Especialidade'},
+        {key: 'horario', label: 'Horário', sortable: true},
+        {key: 'especialidade', label: 'Especialidade', sortable: true},
       ],
       perPage: 10,
       currentPage: 1,

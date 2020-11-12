@@ -36,7 +36,18 @@ class ConsultaService {
   buscarConsulta(idConsulta) {
     let url = `${API_URL}/${idConsulta}`;
     return axios
-      .get(url ,
+      .get(url,
+        {headers: authHeader()}
+      )
+      .then(response => {
+        return response.data;
+      });
+  }
+
+  buscarConsultasDoUsuarioLogado() {
+    let url = `${API_URL}/usuario-logado`;
+    return axios
+      .get(url,
         {headers: authHeader()}
       )
       .then(response => {
@@ -47,7 +58,7 @@ class ConsultaService {
   buscarMensagens(idConsulta) {
     let url = `${API_URL}/${idConsulta}/mensagens`;
     return axios
-      .get(url ,
+      .get(url,
         {headers: authHeader()}
       )
       .then(response => {
