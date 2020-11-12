@@ -27,9 +27,20 @@
               </div>
             </template>
             <template #cell(ir)="row">
-              <b-link :to="row.item.pagina">
-                <b-icon-link45deg></b-icon-link45deg>
-              </b-link>
+              <b-button-group size="sm">
+                <b-button title="Ir até atendimento" :to="row.item.pagina">
+                  <b-icon-link45deg></b-icon-link45deg>
+                </b-button>
+                <b-button v-if="row.item.podeRemover" @click="removerConsultaDisponivel(row.item)"
+                          title="Remover da agenda">
+                  <b-icon-trash></b-icon-trash>
+                </b-button>
+              </b-button-group>
+            </template>
+            <template #cell(agendado)="row">
+              <span v-if="row.item.fimHorario">Finalizado</span>
+              <span v-else-if="row.item.idUsuario">Agendado</span>
+              <span v-else>Disponível</span>
             </template>
           </b-table>
         </div>
@@ -50,35 +61,74 @@
 </template>
 
 <script>
-import {BIcon, BIconArrowUp, BIconLink45deg} from 'bootstrap-vue'
+import {BIconLink45deg, BIconTrash} from 'bootstrap-vue'
 
 import ConsultaService from '@/services/consulta.service'
 
 export default {
   middleware: ['autenticado'],
   components: {
-    BIcon,
-    BIconArrowUp,
-    BIconLink45deg
+    BIconLink45deg,
+    BIconTrash,
   },
   data() {
     return {
       consultas: [],
       isBusy: false,
-      fields: [
-        {key: 'dataMarcada', label: 'Data Marcada', sortable: true},
-        {key: 'horario', label: 'Horário', sortable: true},
-        {key: 'fimHorario', label: 'Finalizado em', sortable: true},
-        {key: 'especialidade', label: 'Especialidade', sortable: true},
-        {key: 'ir', label: 'Ir', sortable: false},
-      ],
       perPage: 10,
       currentPage: 1,
     }
   },
+  methods: {
+    podeRemover(item) {
+      return this.tecnico && !item.fimHorario && !item.idUsuario;
+    },
+    removerConsultaDisponivel(item) {
+      ConsultaService.removerConsultaDisponivel(item.idConsulta).then(
+        () => {
+          this.consultas = this.consultas.filter(i => i.idConsulta !== item.idConsulta)
+          this.$bvToast.toast('Horário disponivel removido com sucesso', {
+            title: 'Remoção de horário disponivel:',
+            variant: 'success',
+            solid: true
+          })
+        }
+      ).catch(
+        error => {
+          let message = "Ocorreu um erro";
+          if (error?.response?.data?.message) {
+            message = error.response.data.message
+          } else if (error?.message) {
+            message = error.message;
+          }
+          this.$bvToast.toast(message, {
+            title: 'Remoção de horário:',
+            variant: 'danger',
+            solid: true
+          })
+        }
+      )
+    }
+  },
   computed: {
+    fields() {
+      let fields = [{key: 'dataMarcada', label: 'Data Marcada', sortable: true},
+        {key: 'horario', label: 'Horário', sortable: true},
+        {key: 'fimHorario', label: 'Finalizado em', sortable: true},
+        {key: 'especialidade', label: 'Especialidade', sortable: true},
+        {key: 'ir', label: 'Ir', sortable: false},]
+
+      if (this.usuarioCorrente?.includes('T')) {
+        fields.push({key: 'agendado', label: 'Status', sortable: true})
+      }
+
+      return fields;
+    },
     usuarioCorrente() {
       return this.$store.state.auth.user;
+    },
+    tecnico() {
+      return this.usuarioCorrente?.includes('T');
     },
     rows() {
       return this.consultas.length
@@ -88,10 +138,11 @@ export default {
     ConsultaService.buscarConsultasDoUsuarioLogado()
       .then(
         consultas => {
-          this.consultas = consultas
-          this.consultas.forEach(c => {
+          consultas.forEach(c => {
             c.pagina = `/atendimento/${c.idConsulta}`;
+            c.podeRemover = this.podeRemover(c)
           })
+          this.consultas = consultas
         }
       )
   }
