@@ -55,6 +55,17 @@ class ConsultaService {
       });
   }
 
+  removerConsultaDisponivel(idConsulta) {
+    let url = `${API_URL}/disponiveis/${idConsulta}`;
+    return axios
+      .delete(url,
+        {headers: authHeader()}
+      )
+      .then(response => {
+        return response.data;
+      });
+  }
+
   buscarMensagens(idConsulta) {
     let url = `${API_URL}/${idConsulta}/mensagens`;
     return axios
