@@ -17,6 +17,7 @@
         <b-form-group label="Você: " label-for="input-mensagem">
           <b-form-input
             v-model="mensagem"
+            :state="mensagemState"
             id="input-mensagem"
             :disabled="!chatAtivo"
             required
@@ -24,7 +25,7 @@
 
           </b-form-input>
         </b-form-group>
-        <button type="submit" :disabled="!chatAtivo" class="btn btn-success">Enviar</button>
+        <button type="submit" :disabled="!chatAtivo || !this.mensagemState" class="btn btn-success">Enviar</button>
         <button  v-if="chatAtivo" class="btn btn-danger" @click="finalizarChat">Finalizar chat</button>
       </form>
     </div>
@@ -116,6 +117,13 @@ export default {
     }
   },
   computed: {
+    mensagemState() {
+      if (this.mensagem !== null && this.mensagem.trim() === '') {
+        return null;
+      } else {
+        return this.mensagem.length < 512
+      }
+    },
     chatAtivo() {
       if (this.ativo && this.conectado) {
         const mensagemDeSaida = this.mensagens.find(m => m.exited)
