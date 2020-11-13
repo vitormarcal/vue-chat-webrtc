@@ -12,6 +12,7 @@
             id="input-login-username"
             type="text"
             v-model="usuario.username"
+            :state="usernameState"
             required
             placeholder="Seu nome de usuário">
 
@@ -22,6 +23,7 @@
           <b-form-input
             id="input-login-senha"
             v-model="usuario.password"
+            :state="passwordState"
             type="password"
             required
             placeholder="Senha">
@@ -58,7 +60,7 @@ export default {
   },
   methods: {
     entrar() {
-      if (this.usuario.username && this.usuario.password) {
+      if (this.usernameState && this.passwordState) {
         this.$store.dispatch('auth/login', this.usuario).then(
           () => {
             this.$router.push('/agenda');
@@ -89,7 +91,19 @@ export default {
     },
     usuarioLogado() {
       return this.$store.state.auth.user;
-    }
+    },
+    usernameState() {
+      if (this.usuario.username == null) {
+        return null
+      }
+      return this.usuario.username?.length > 2
+    },
+    passwordState() {
+      if (this.usuario.password == null) {
+        return null
+      }
+      return this.usuario.password?.length > 6
+    },
   },
   created() {
     if (this.loggedIn) {
