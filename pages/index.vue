@@ -13,6 +13,7 @@
             type="text"
             v-model="usuario.username"
             :state="usernameState"
+            autofocus
             required
             placeholder="Seu nome de usuário">
 
