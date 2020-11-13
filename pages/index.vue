@@ -3,7 +3,7 @@
     <div>
       <Logo/>
       <h1 class="title">
-        Sistema de Gestão de Consultas
+        Teleatendimento
       </h1>
       <div class="links">
 
@@ -54,6 +54,7 @@ import UsuarioModel from "../components/usuario/usuario.model";
 
 export default {
   components: {CadastroUsuario},
+  layout: 'inicio',
   data() {
     return {
       usuario: new UsuarioModel(),
@@ -116,7 +117,6 @@ export default {
 
 <style>
 .container {
-  margin: 5vh auto;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -139,6 +139,7 @@ export default {
   font-size: 32px;
   color: #35495e;
   letter-spacing: 1px;
+  margin-top: 2vh;
 }
 
 .links {

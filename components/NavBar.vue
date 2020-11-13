@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="info" v-if="this.logado">
+  <b-navbar toggleable="lg" type="dark" variant="info" v-if="this.logado" class="bg-navbar">
     <b-navbar-brand href="#">Gestão de Consulta</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -69,6 +69,10 @@ nav {
   margin-bottom: 25px;
 
   display: flex;
+}
+
+.bg-navbar {
+  background-color: rgba(27,27,27,1) !important;
 }
 
 </style>
