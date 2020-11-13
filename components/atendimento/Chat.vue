@@ -6,7 +6,7 @@
         <h3 v-else>Você estava conversando com @{{to.nome}}</h3>
         <hr>
       </div>
-      <div class="card-body">
+      <div class="card-body historico">
         <div class="messages" v-for="(msg, index) in mensagens" :key="index">
           <p><span class="font-weight-bold">{{msg.time}} {{ msg.de }}: </span>{{ msg.texto }}</p>
         </div>
@@ -170,5 +170,10 @@ export default {
 </script>
 
 <style scoped>
+
+.historico {
+  max-height: 50vh;
+  overflow: auto;
+}
 
 </style>
