@@ -12,6 +12,7 @@
         <b-form-input
           id="input-nome"
           :state="nomeState"
+          autofocus
           v-model.trim="usuario.nome"
           required
           placeholder="Seu nome">
@@ -34,6 +35,7 @@
         <b-form-input
           v-model="usuario.username"
           :state="usernameState"
+          :formatter="formatter"
           id="input-username"
           type="email"
           required
@@ -48,6 +50,7 @@
           :state="emailState"
           id="input-email"
           type="email"
+          :formatter="formatter"
           required
           placeholder="Seu email">
 
@@ -88,6 +91,9 @@ export default {
     }
   },
   methods: {
+    formatter(value) {
+      return value.toLowerCase()
+    },
     acao() {
       if (this.completo) {
         this.registrar();
