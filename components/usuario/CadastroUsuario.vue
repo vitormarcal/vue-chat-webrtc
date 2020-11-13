@@ -62,6 +62,7 @@
       <b-form-group label="Crie uma senha:  * " label-for="input-senha">
         <b-form-input
           v-model="usuario.password"
+          :state="passwordState"
           id="input-senha"
           type="password"
           required
@@ -121,7 +122,7 @@ export default {
 
   computed: {
     completo() {
-      return !!(this.nomeState && this.usernameState && this.emailState && this.tipoState);
+      return !!(this.nomeState && this.usernameState && this.emailState && this.tipoState && this.passwordState);
     },
     nomeState() {
       if (this.usuario.nome == null) {
@@ -146,7 +147,13 @@ export default {
         return null
       }
       return this.usuario.tipo === 'P' || this.usuario.tipo === 'T'
-    }
+    },
+    passwordState() {
+      if (this.usuario.password == null) {
+        return null
+      }
+      return this.usuario.password?.length > 6
+    },
   }
 }
 </script>
