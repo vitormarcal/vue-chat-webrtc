@@ -2,13 +2,16 @@
   <div class="card mt-3">
     <div class="card-body">
       <div class="card-title">
-        <h3 v-if="chatAtivo">Você está conversando com @{{to.nome}}</h3>
-        <h3 v-else>Você estava conversando com @{{to.nome}}</h3>
+        <h3 v-if="chatAtivo">Você está conversando com @{{ to.nome }}</h3>
+        <h3 v-else>Você estava conversando com @{{ to.nome }}</h3>
         <hr>
       </div>
       <div class="card-body historico">
-        <div class="messages" v-for="(msg, index) in mensagens" :key="index">
-          <p><span class="font-weight-bold">{{msg.time}} {{ msg.de }}: </span>{{ msg.texto }}</p>
+        <div class="messages" :class="{'message-out': msg.para === to.nome, 'message-in': msg.para !== to.nome}"
+             v-for="(msg, index) in mensagens" :key="index">
+          <div class="font-weight-bold">{{ msg.de }}</div>
+          <p>{{ msg.texto }}</p>
+          <div class="font-weight-bold">{{ msg.time }}</div>
         </div>
       </div>
     </div>
@@ -26,7 +29,7 @@
           </b-form-input>
         </b-form-group>
         <button type="submit" :disabled="!chatAtivo || !this.mensagemState" class="btn btn-success">Enviar</button>
-        <button  v-if="chatAtivo" class="btn btn-danger" @click="finalizarChat">Finalizar chat</button>
+        <button v-if="chatAtivo" class="btn btn-danger" @click="finalizarChat">Finalizar chat</button>
       </form>
     </div>
 
@@ -91,7 +94,7 @@ export default {
       }
     },
     sendMessage(e) {
-      if(e) {
+      if (e) {
         e.preventDefault();
       }
       const agora = new Date();
@@ -110,7 +113,7 @@ export default {
       this.mensagem = '';
     },
     finalizarComMensagem() {
-      this.mensagem='Saí da sala';
+      this.mensagem = 'Saí da sala';
       this.exited = true
       this.sendMessage();
       this.disconnect();
@@ -174,6 +177,18 @@ export default {
 .historico {
   max-height: 50vh;
   overflow: auto;
+}
+
+.messages {
+  margin: 15px 5px;
+}
+
+.message-out {
+  text-align: right;
+}
+
+.message-in {
+  text-align: left;
 }
 
 </style>
