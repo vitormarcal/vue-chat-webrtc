@@ -38,9 +38,8 @@
       </div>
 
 
-      <b-modal id="modal-cadastro-usuario" title="Cadastro de usuário" @ok="registrar">
-        <cadastro-usuario :usuario="usuario"></cadastro-usuario>
-      </b-modal>
+      <cadastro-usuario></cadastro-usuario>
+
     </div>
   </div>
 </template>
@@ -83,30 +82,6 @@ export default {
       }
 
     },
-    registrar() {
-      this.$store.dispatch('auth/register', this.usuario).then(
-        data => {
-          this.$bvToast.toast(data.message, {
-            title: 'Registrar:',
-            variant: 'success',
-            solid: true
-          })
-        },
-        error => {
-          let message = "Ocorreu um erro";
-          if (error?.response?.data?.message) {
-            message = error.response.data.message
-          } else if (error?.message) {
-            message = error.message;
-          }
-          this.$bvToast.toast(message, {
-            title: 'Registrar:',
-            variant: 'danger',
-            solid: true
-          })
-        }
-      );
-    }
   },
   computed: {
     loggedIn() {
