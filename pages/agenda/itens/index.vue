@@ -66,7 +66,7 @@ import {BIconLink45deg, BIconTrash} from 'bootstrap-vue'
 import ConsultaService from '@/services/consulta.service'
 
 export default {
-  middleware: ['autenticado'],
+  middleware: ['autenticado', 'cadastro-incompleto'],
   components: {
     BIconLink45deg,
     BIconTrash,
