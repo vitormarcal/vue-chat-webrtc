@@ -9,9 +9,13 @@
       <div class="card-body historico">
         <div class="messages" :class="{'message-out': msg.para === to.nome, 'message-in': msg.para !== to.nome}"
              v-for="(msg, index) in mensagens" :key="index">
-          <div class="font-weight-bold">{{ msg.de }}</div>
-          <p>{{ msg.texto }}</p>
-          <div class="font-weight-bold">{{ msg.time }}</div>
+          <span class="message-info">
+            <span class="message-de" v-if="msg.para === to.nome">Você</span>
+            <span class="message-de" v-else>{{msg.de }}</span>
+            <span class="message-time">{{ msg.time }}</span>
+          </span>
+          <span class="message-info message-text">{{ msg.texto }}</span>
+
         </div>
       </div>
     </div>
@@ -177,6 +181,7 @@ export default {
 .historico {
   max-height: 50vh;
   overflow: auto;
+  background-color: #f3f6fb;
 }
 
 .messages {
@@ -189,6 +194,35 @@ export default {
 
 .message-in {
   text-align: left;
+}
+
+.message-info {
+  margin: 5px;
+  display: block;
+  color: #616e88;
+}
+
+.message-text {
+  display: inline-block;
+  background-color: black;
+  color: rgb(234 234 239 / 80%);
+  border-radius: 8px;
+  padding: 15px 10px;
+
+  border: 0 solid rgba(0,0,0,.125);
+  box-shadow: 0 1rem 1.5rem -0.3rem rgba(76,114,179,.2);
+}
+
+.message-de {
+  display: inline-block;
+}
+.message-time {
+  font-size: 12px;
+}
+
+.message-in .message-text {
+  background-color: white;
+  color: #72757b;
 }
 
 </style>
