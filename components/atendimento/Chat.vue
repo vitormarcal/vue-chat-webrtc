@@ -5,13 +5,14 @@
         <h3 v-if="chatAtivo">Você está conversando com @{{ to.nome }}</h3>
         <h3 v-else>Você estava conversando com @{{ to.nome }}</h3>
         <hr>
+        <button v-if="chatAtivo" class="btn btn-danger" @click="finalizarChat">Finalizar chat</button>
       </div>
       <div class="card-body historico">
         <div class="messages" :class="{'message-out': msg.para === to.nome, 'message-in': msg.para !== to.nome}"
              v-for="(msg, index) in mensagens" :key="index">
           <span class="message-info">
             <span class="message-de" v-if="msg.para === to.nome">Você</span>
-            <span class="message-de" v-else>{{msg.de }}</span>
+            <span class="message-de" v-else>{{ msg.de }}</span>
             <span class="message-time">{{ msg.time }}</span>
           </span>
           <span class="message-info message-text">{{ msg.texto }}</span>
@@ -21,7 +22,7 @@
     </div>
     <div class="card-footer">
       <form @submit.prevent="sendMessage">
-        <b-form-group label="Você: " label-for="input-mensagem">
+        <b-input-group label="Você: " label-for="input-mensagem">
           <b-form-input
             v-model="mensagem"
             :state="mensagemState"
@@ -29,11 +30,11 @@
             :disabled="!chatAtivo"
             required
             placeholder="Digite uma mensangem">
-
           </b-form-input>
-        </b-form-group>
-        <button type="submit" :disabled="!chatAtivo || !this.mensagemState" class="btn btn-success">Enviar</button>
-        <button v-if="chatAtivo" class="btn btn-danger" @click="finalizarChat">Finalizar chat</button>
+          <b-input-group-append>
+            <button type="submit" :disabled="!chatAtivo || !this.mensagemState" class="btn btn-success">Enviar</button>
+          </b-input-group-append>
+        </b-input-group>
       </form>
     </div>
 
@@ -47,10 +48,17 @@
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
+import {BIconXSquare, BIconTrash, BIconXCircleFill, BIconArrowUp} from 'bootstrap-vue'
 
 export default {
   name: "Chat",
   props: ['to', 'title', 'iniciarEm', 'idConsulta', 'mensagens', 'ativo'],
+  components: {
+    BIconXSquare,
+    BIconTrash,
+    BIconXCircleFill,
+    BIconArrowUp
+  },
   data() {
     return {
       mensagem: '',
@@ -209,13 +217,14 @@ export default {
   border-radius: 8px;
   padding: 15px 10px;
 
-  border: 0 solid rgba(0,0,0,.125);
-  box-shadow: 0 1rem 1.5rem -0.3rem rgba(76,114,179,.2);
+  border: 0 solid rgba(0, 0, 0, .125);
+  box-shadow: 0 1rem 1.5rem -0.3rem rgba(76, 114, 179, .2);
 }
 
 .message-de {
   display: inline-block;
 }
+
 .message-time {
   font-size: 12px;
 }
