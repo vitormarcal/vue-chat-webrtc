@@ -95,11 +95,6 @@ export default {
       isBusy: false,
       diaDaConsulta: formatDate(new Date()),
       idEspecialidade: null,
-      fields: [
-        {key: 'selecionar', label: 'Seleção'},
-        {key: 'horario', label: 'Horário', sortable: true},
-        {key: 'especialidade', label: 'Especialidade', sortable: true},
-      ],
       perPage: 10,
       currentPage: 1,
       disponiveis: []
@@ -160,6 +155,19 @@ export default {
     },
     usuarioCorrente() {
       return this.$store.state.auth.user;
+    },
+    isTecnico() {
+      return this.usuarioCorrente?.includes('T')
+    },
+    fields() {
+      let fields = [];
+      if (!this.isTecnico) {
+        fields.push({key: 'selecionar', label: 'Seleção'});
+      }
+      fields.push({key: 'horario', label: 'Horário', sortable: true});
+      fields.push({key: 'especialidade', label: 'Especialidade', sortable: true});
+
+      return fields;
     }
   },
   mounted() {
