@@ -8,7 +8,7 @@
     </h1>
 
     <div>
-      <selecao-especialidades :especialidade.sync="tecnico.idEspecialidade"></selecao-especialidades>
+      <selecao-multiplas-especialidades :carga="minhasEspecialidades" @update:especialidades="adicionarEspecialidade"></selecao-multiplas-especialidades>
 
       <b-form-group label="Atendo na:" label-for="checkbox-dias-da-semana">
         <b-form-checkbox-group
@@ -63,10 +63,11 @@
 <script>
 import TecnicoModel from "@/components/tecnico/tecnico.model.js";
 import SelecaoEspecialidades from "./SelecaoEspecialidades";
+import SelecaoMultiplasEspecialidades from "./SelecaoMultiplasEspecialidades";
 
 export default {
   name: "TecnicoForm",
-  components: {SelecaoEspecialidades},
+  components: {SelecaoMultiplasEspecialidades, SelecaoEspecialidades},
   props: ['editar', "tecnico"],
   data() {
     return {
@@ -82,6 +83,12 @@ export default {
     }
   },
   methods: {
+    adicionarEspecialidade(especialidades) {
+      const lis = especialidades.map(e1 => this.especialidades.find(e2 => e1 === e2.descricao))
+      let tecnicoModel = new TecnicoModel(this.tecnico);
+      tecnicoModel.adicionarEspecialidades(lis)
+      this.$emit('update:tecnico', tecnicoModel)
+    },
     salvarTecnico() {
 
       if (!this.tecnico.horariosValidos()) {
@@ -163,6 +170,12 @@ export default {
     }
   },
   computed: {
+    especialidades() {
+      return this.$store.state.especialidades.lista;
+    },
+    minhasEspecialidades() {
+      return this.tecnico?.especialidades?.map(e => e.descricao) || [];
+    },
     duracaoAtendimentoState() {
       if (this.tecnico.duracaoAtendimento == null) {
         return null
