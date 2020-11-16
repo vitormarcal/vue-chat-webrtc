@@ -1,14 +1,27 @@
 class TecnicoModel {
   constructor(data) {
     this.id = data?.id;
-    this.especialidade = data?.especialidade
-    this.idEspecialidade = data?.especialidade?.id;
+    this.especialidades = data?.especialidades?.map(e => e) || []
+    this.idEspecialidade = this.especialidades?.filter(e => !!e?.id).map(e => e.id)
     this.duracaoAtendimento = data?.duracaoAtendimento;
-    this.diasQueAtende = data?.diasQueAtende?.split(',');
+
+    if (data?.diasQueAtende instanceof Array) {
+      this.diasQueAtende = data?.diasQueAtende || [];
+    } else {
+      this.diasQueAtende = data?.diasQueAtende?.split(',');
+    }
+
     this.inicioAtendimento = data?.inicioAtendimento;
     this.saidaDescanso = data?.saidaDescanso;
     this.voltaDescanso = data?.voltaDescanso;
     this.fimAtendimento = data?.fimAtendimento;
+  }
+
+  adicionarEspecialidades(especialidades) {
+    this.especialidades.splice(0, this.especialidades.length)
+    especialidades.forEach(e => this.especialidades.push(e))
+    this.idEspecialidade = this.especialidades?.filter(e => !!e?.id).map(e => e.id)
+
   }
 
   horariosValidos() {
