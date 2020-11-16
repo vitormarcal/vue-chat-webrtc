@@ -1,10 +1,10 @@
 <template>
   <div>
     <h1 class="title" v-if="editar">
-      Cadastro do @{{ usuarioCorrente.username }}
+      Cadastro do @{{ username }}
     </h1>
     <h1 class="title" v-else>
-      @{{ usuarioCorrente.username }}, complete seu cadastro.
+      @{{ username }}, complete seu cadastro.
     </h1>
 
     <div>
@@ -185,8 +185,8 @@ export default {
     accessToken() {
       return this.$store.state.auth.accessToken;
     },
-    usuarioCorrente() {
-      return this.$store.state.auth.user;
+    username() {
+      return this.$store.state.auth.user?.username || '';
     }
   }
 }
