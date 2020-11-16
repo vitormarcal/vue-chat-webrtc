@@ -39,7 +39,7 @@ export default {
           active: this.logado && this.usuario?.includes('A')
         },
         {
-          link: '/tecnicos/' + this.usuario?.id,
+          link: '/tecnicos/' + this.usuario?.tecnicoId,
           label: 'Perfil',
           active: this.logado && this.usuario?.includes('T')
         },

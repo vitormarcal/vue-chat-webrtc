@@ -2,6 +2,7 @@ class UsuarioModel {
   constructor(data) {
     this.nome = data?.nome;
     this.id = data?.id;
+    this.tecnicoId = data?.tecnicoId;
     this.telefone = data?.nome;
     this.email = data?.email;
     this.username = data?.username;
