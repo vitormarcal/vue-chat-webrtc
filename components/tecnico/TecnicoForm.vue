@@ -95,7 +95,7 @@ export default {
       this.$store.dispatch('tecnicos/criar', this.tecnico)
         .then(
           tecnicoSalvo => {
-            this.$store.dispatch('auth/setCadastroCompleto')
+            this.$store.dispatch('auth/setCadastroCompleto', tecnicoSalvo.id)
             this.$bvToast.toast('Técnico salvo com sucesso', {
               title: 'Novo técnico:',
               variant: 'success',

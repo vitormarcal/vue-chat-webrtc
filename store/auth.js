@@ -31,10 +31,11 @@ export const mutations = {
   registerFailure(state) {
     state.logado = false;
   },
-  SET_CADASTRO_COMPLETO(state) {
+  SET_CADASTRO_COMPLETO(state, tecnicoId) {
     if (process.browser) {
       let user = JSON.parse(localStorage.getItem('user'));
       user.cadastroCompleto = true;
+      user.tecnicoId = tecnicoId;
       localStorage.setItem('user', JSON.stringify(user));
       state.user = new UsuarioModel(user);
     }
@@ -71,7 +72,7 @@ export const actions = {
       }
     );
   },
-  setCadastroCompleto({commit}) {
-    commit('SET_CADASTRO_COMPLETO')
+  setCadastroCompleto({commit}, tecnicoId) {
+    commit('SET_CADASTRO_COMPLETO', tecnicoId)
   }
 };
