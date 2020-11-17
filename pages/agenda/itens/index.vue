@@ -37,11 +37,6 @@
                 </b-button>
               </b-button-group>
             </template>
-            <template #cell(agendado)="row">
-              <span v-if="row.item.fimHorario">Finalizado</span>
-              <span v-else-if="row.item.idUsuario">Agendado</span>
-              <span v-else>Disponível</span>
-            </template>
           </b-table>
         </div>
         <div class="center">
@@ -116,10 +111,10 @@ export default {
         {key: 'horario', label: 'Horário', sortable: true},
         {key: 'fimHorario', label: 'Finalizado em', sortable: true},
         {key: 'especialidade', label: 'Especialidade', sortable: true},
-        {key: 'ir', label: 'Ir', sortable: false},]
+        {key: 'ir', label: 'Ação', sortable: false},]
 
       if (this.usuarioCorrente?.includes('T')) {
-        fields.push({key: 'agendado', label: 'Status', sortable: true})
+        fields.push({key: 'status', label: 'Status', sortable: true})
       }
 
       return fields;
@@ -141,6 +136,7 @@ export default {
           consultas.forEach(c => {
             c.pagina = `/atendimento/${c.idConsulta}`;
             c.podeRemover = this.podeRemover(c)
+            c.status = c.fimHorario ? 'Finalizado' : c.idUsuario ? 'Agendado' : 'Disponível'
           })
           this.consultas = consultas
         }
