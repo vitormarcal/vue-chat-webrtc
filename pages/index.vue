@@ -143,6 +143,6 @@ export default {
 }
 
 .links {
-  padding-top: 15px;
+  margin-top: 10vh;
 }
 </style>
