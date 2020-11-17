@@ -11,6 +11,12 @@
       </p>
     </div>
 
+    <b-form-group label="Escolha o dia:">
+      <b-col md="auto">
+        <b-calendar locale="pt-BR" :date-disabled-fn="dateDisabled" v-model="selecaoData"></b-calendar>
+      </b-col>
+    </b-form-group>
+
     <template>
       <div id="fsTabela" style="">
         <div class="row">
@@ -19,7 +25,7 @@
                    :fields="fields"
                    :per-page="perPage"
                    :current-page="currentPage"
-                   :items="consultas">
+                   :items="registros">
             <template #table-busy>
               <div class="text-center text-danger my-2">
                 <b-spinner class="align-middle"></b-spinner>
@@ -72,9 +78,13 @@ export default {
       isBusy: false,
       perPage: 10,
       currentPage: 1,
+      selecaoData: ''
     }
   },
   methods: {
+    dateDisabled(ymd, date) {
+      return !this.diasComAgenda.includes(ymd)
+    },
     podeRemover(item) {
       return this.tecnico && !item.fimHorario && !item.idUsuario;
     },
@@ -126,8 +136,17 @@ export default {
       return this.usuarioCorrente?.includes('T');
     },
     rows() {
-      return this.consultas.length
+      return this.registros.length
     },
+    registros() {
+      if (this.selecaoData) {
+        return this.consultas.filter(c => c.dataMarcada === this.selecaoData)
+      }
+      return this.consultas;
+    },
+    diasComAgenda() {
+      return [...new Set(this.consultas.map(c => c.dataMarcada))];
+    }
   },
   mounted() {
     ConsultaService.buscarConsultasDoUsuarioLogado()
