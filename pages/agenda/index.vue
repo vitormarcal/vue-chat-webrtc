@@ -16,7 +16,7 @@
 
     <b-form-group label="Escolha o dia:">
       <b-col md="auto">
-        <b-calendar  v-model="diaDaConsulta" locale="pt-BR"
+        <b-calendar :min="new Date()" v-model="diaDaConsulta" locale="pt-BR"
                     @selected="filtrar"></b-calendar>
       </b-col>
     </b-form-group>
