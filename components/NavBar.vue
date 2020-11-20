@@ -53,6 +53,11 @@ export default {
           label: 'Minhas marcações',
           active: this.logado
         },
+        {
+          link: '/tecnicos/outra/',
+          label: 'Outra',
+          active: this.logado
+        },
       ];
     }
   }
