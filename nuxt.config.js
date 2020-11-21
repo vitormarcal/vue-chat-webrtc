@@ -1,7 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
-  target: 'static',
+  ssr: false,
 
   env: {
     backendApi: process.env.BACKEND_API || 'http://localhost:8080',

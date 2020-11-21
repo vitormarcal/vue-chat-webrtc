@@ -29,7 +29,7 @@ export default {
       return this.$store.state.auth.user
     },
     logado() {
-      return this.$store.state.auth.logado
+      return this.$store.state.auth.logado || true
     },
     links() {
       return [
