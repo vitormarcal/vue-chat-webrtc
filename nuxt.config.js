@@ -5,7 +5,7 @@ export default {
 
   env: {
     backendApi: process.env.BACKEND_API || 'http://localhost:8080',
-    WS_URL: process.env.WS_URL || 'https://videocall-rtc.herokuapp.com'
+    WS_URL: 'http://localhost:3000' || 'https://videocall-rtc.herokuapp.com'
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
