@@ -1,22 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-      flat
-    >
-      <v-btn
-        icon
-        to="/"
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-message</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      {{ name }}
-    </v-app-bar>
+    <nav-bar></nav-bar>
     <v-main>
       <div class="main">
         <nuxt />
@@ -36,6 +20,7 @@
 
 <style>
   .main {
+    margin-top: 4vh;
     height: calc(100vh - 64px);
     width: 100vw;
     overflow-y: hidden;
@@ -44,8 +29,10 @@
 
 <script>
 import { mapState } from 'vuex'
+import NavBar from "../components/NavBar";
 
 export default {
+  components: {NavBar},
   data () {
     return {
       clipped: false,

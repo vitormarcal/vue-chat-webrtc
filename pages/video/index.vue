@@ -51,7 +51,7 @@ export default {
   methods: {
     startMeeting() {
       this.$store.commit('setting/setName', {name: this.name})
-      this.$router.push(`/rooms/${this.createUUID()}`)
+      this.$router.push(`/video/rooms/${this.createUUID()}`)
     },
     createUUID() {
       // http://www.ietf.org/rfc/rfc4122.txt
