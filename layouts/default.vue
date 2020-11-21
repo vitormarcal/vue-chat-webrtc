@@ -81,7 +81,7 @@ html {
 }
 </style>
 <script>
-import CHeader from "./Header";
+import CHeader from "../components/Header";
 import NavBar from "../components/NavBar";
 
 export default {
