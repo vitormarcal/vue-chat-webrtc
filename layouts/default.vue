@@ -1,8 +1,21 @@
 <template>
-  <b-container class="container-page">
+  <v-app>
     <nav-bar></nav-bar>
-    <Nuxt class="container-page"/>
-  </b-container>
+    <v-main>
+      <div class="main">
+        <nuxt />
+      </div>
+    </v-main>
+    <v-overlay :value="overlay">
+      <p>
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        />
+        Conexão perdida com o server, tentando reconectar ...
+      </p>
+    </v-overlay>
+  </v-app>
 </template>
 
 <style>
@@ -30,6 +43,13 @@ html {
 *::after {
   box-sizing: border-box;
   margin: 0;
+}
+
+.main {
+  margin-top: 4vh;
+  height: calc(100vh - 64px);
+  width: 100vw;
+  overflow-y: hidden;
 }
 
 .container-page {
@@ -83,8 +103,40 @@ html {
 <script>
 import CHeader from "../components/Header";
 import NavBar from "../components/NavBar";
+import {mapState} from "vuex";
 
 export default {
-  components: {NavBar, CHeader}
+  components: {NavBar, CHeader},
+  computed: mapState({
+    name: state => state.setting.name,
+    overlay: state => state.setting.overlay
+  }),
+  mounted () {
+    this.$socket.on('reconnecting', () => {
+      debugger
+      this.$store.commit('setting/setOverlay', {
+        overlay: true
+      })
+    })
+
+    this.$socket.on('reconnect', () => {
+      debugger
+      this.$store.commit('setting/setOverlay', {
+        overlay: false
+      })
+    })
+
+    this.$socket.on('reconnect', () => {
+      debugger
+      this.$store.commit('setting/setOverlay', {
+        overlay: false
+      })
+    })
+
+    this.$socket.on('reject', (data) => {
+      debugger
+      this.$router.push('/error')
+    })
+  }
 }
 </script>
