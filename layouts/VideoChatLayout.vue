@@ -17,11 +17,11 @@
       <v-spacer />
       {{ name }}
     </v-app-bar>
-    <v-content>
+    <v-main>
       <div class="main">
         <nuxt />
       </div>
-    </v-content>
+    </v-main>
     <v-overlay :value="overlay">
       <p>
         <v-progress-circular
