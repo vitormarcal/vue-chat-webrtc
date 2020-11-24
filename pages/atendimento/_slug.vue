@@ -19,9 +19,9 @@
 
       </p>
 
-      <div class="card mt-3" id="mainFrame">
+      <div class="card w-100" id="mainFrame">
         <video id="localVideo" ref="localVideo" autoplay muted>LocalVideo</video>
-        <video id="remoteVideo" ref="remoteVideo" autoplay>RemoteVideo</video>
+        <video id="remoteVideo" class="w-100 p-3" ref="remoteVideo" autoplay>RemoteVideo</video>
         <div class="bottom-bar d-flex justify-center">
           <v-btn class="mx-2" fab @click="offCamera()">
             <v-icon dark>
@@ -300,27 +300,33 @@ export default {
 }
 
 
-#mainFrame {
+#localVideo {
+  z-index: 100;
+  position: absolute;
+  right: 25px;
+  height: 80px;
+  width: 100px;
+  bottom: 18px;
+  background-color: #47494e;
+}
+
+#remoteVideo {
+  height: calc(100vh - 64px);
+  background-color: #7f828b;
+}
+
+.bottom-bar {
+  position: absolute;
+  bottom: 20px;
+  width: 100vw;
+  text-align: center;
+}
+
+
+@media (min-width: 448px) {
   #localVideo {
-    z-index: 100;
-    position: absolute;
-    right: 25px;
-    bottom: 85px;
-    background-color: #47494e;
     height: 150px;
     width: 200px;
-  }
-
-  #remoteVideo {
-    height: calc(100vh - 64px);
-    background-color: #7f828b;
-  }
-
-  .bottom-bar {
-    position: absolute;
-    bottom: 20px;
-    width: 100vw;
-    text-align: center;
   }
 }
 
