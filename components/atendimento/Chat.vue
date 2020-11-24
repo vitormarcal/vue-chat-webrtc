@@ -67,6 +67,11 @@ export default {
     }
   },
   methods: {
+    scrollToEnd() {
+      const container = this.$el.querySelector(".historico");
+      container.scrollTop = container.scrollHeight;
+      console.log(container.scrollHeight)
+    },
     connect() {
       if (this.url) {
         this.stompClient.connect(
@@ -180,6 +185,9 @@ export default {
     conectado() {
       this.tickleConnection()
     },
+  },
+  updated() {
+    this.scrollToEnd()
   }
 }
 </script>
