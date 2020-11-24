@@ -114,6 +114,9 @@ export default {
     }
 
     this.$socket.on('message', async (data) => {
+      if (typeof data == 'string') {
+        data = JSON.parse(data);
+      }
       if (data.type === 'offer') {
         await localPC.setRemoteDescription(new RTCSessionDescription(data))
         const answer = await localPC.createAnswer()

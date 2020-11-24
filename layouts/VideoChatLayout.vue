@@ -45,28 +45,24 @@ export default {
   }),
   mounted () {
     this.$socket.on('reconnecting', () => {
-      debugger
       this.$store.commit('setting/setOverlay', {
         overlay: true
       })
     })
 
     this.$socket.on('reconnect', () => {
-      debugger
       this.$store.commit('setting/setOverlay', {
         overlay: false
       })
     })
 
     this.$socket.on('reconnect', () => {
-      debugger
       this.$store.commit('setting/setOverlay', {
         overlay: false
       })
     })
 
     this.$socket.on('reject', (data) => {
-      debugger
       this.$router.push('/error')
     })
   }
