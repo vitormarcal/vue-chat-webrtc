@@ -1,42 +1,47 @@
 <template>
-  <div class="card mt-3">
-    <div class="card-body">
-      <div class="card-title">
-        <h3 v-if="chatAtivo">Você está conversando com @{{ to.nome }}</h3>
-        <h3 v-else>Você estava conversando com @{{ to.nome }}</h3>
-        <hr>
-        <button v-if="chatAtivo" class="btn btn-danger" @click="finalizarChat">Finalizar chat</button>
-      </div>
-      <div class="card-body historico">
-        <div class="messages" :class="{'message-out': msg.para === to.nome, 'message-in': msg.para !== to.nome}"
-             v-for="(msg, index) in mensagens" :key="index">
+  <div id="chat" class="card mt-3">
+    <b-card-header header-tag="header" class="p-1" role="tab">
+      <b-button block v-b-toggle.accordion-1 variant="info" @click="scrollToEnd('#chat')">Mensagens</b-button>
+    </b-card-header>
+    <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+      <div class="card-body">
+        <div class="card-title">
+          <h3 v-if="chatAtivo">Você está conversando com @{{ to.nome }}</h3>
+          <h3 v-else>Você estava conversando com @{{ to.nome }}</h3>
+          <hr>
+          <button v-if="chatAtivo" class="btn btn-danger" @click="finalizarChat">Finalizar chat</button>
+        </div>
+        <div class="card-body historico">
+          <div class="messages" :class="{'message-out': msg.para === to.nome, 'message-in': msg.para !== to.nome}"
+               v-for="(msg, index) in mensagens" :key="index">
           <span class="message-info">
             <span class="message-de" v-if="msg.para === to.nome">Você</span>
             <span class="message-de" v-else>{{ msg.de }}</span>
             <span class="message-time">{{ msg.time }}</span>
           </span>
-          <span class="message-info message-text">{{ msg.texto }}</span>
+            <span class="message-info message-text">{{ msg.texto }}</span>
 
+          </div>
         </div>
       </div>
-    </div>
-    <div class="card-footer">
-      <form @submit.prevent="sendMessage">
-        <b-input-group label="Você: " label-for="input-mensagem">
-          <b-form-input
-            v-model="mensagem"
-            :state="mensagemState"
-            id="input-mensagem"
-            :disabled="!chatAtivo"
-            required
-            placeholder="Digite uma mensangem">
-          </b-form-input>
-          <b-input-group-append>
-            <button type="submit" :disabled="!chatAtivo || !this.mensagemState" class="btn btn-success">Enviar</button>
-          </b-input-group-append>
-        </b-input-group>
-      </form>
-    </div>
+      <div class="card-footer">
+        <form @submit.prevent="sendMessage">
+          <b-input-group label="Você: " label-for="input-mensagem">
+            <b-form-input
+              v-model="mensagem"
+              :state="mensagemState"
+              id="input-mensagem"
+              :disabled="!chatAtivo"
+              required
+              placeholder="Digite uma mensangem">
+            </b-form-input>
+            <b-input-group-append>
+              <button type="submit" :disabled="!chatAtivo || !this.mensagemState" class="btn btn-success">Enviar</button>
+            </b-input-group-append>
+          </b-input-group>
+        </form>
+      </div>
+    </b-collapse>
 
     <b-modal id="modal-finalizar-chat" title="Cadastro de usuário" @ok="finalizarComMensagem">
       <p class="title">
@@ -71,8 +76,8 @@ export default {
         const audio = new Audio('/elevator-song.mp3');
         audio.play();
     },
-    scrollToEnd() {
-      const container = this.$el.querySelector(".historico");
+    scrollToEnd(selector) {
+      const container = this.$el.querySelector(selector);
       container.scrollTop = container.scrollHeight;
       console.log(container.scrollHeight)
     },
@@ -192,12 +197,12 @@ export default {
     },
   },
   updated() {
-    this.scrollToEnd()
+    this.scrollToEnd(".historico")
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 .historico {
   max-height: 50vh;
