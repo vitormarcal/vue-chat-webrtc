@@ -17,10 +17,28 @@
       </b-col>
     </b-form-group>
 
+    <b-form-group label="Mostrar: ">
+      <b-form-radio-group id="filtro-status" v-model="filtroStatus"
+                          name="filtro-status">
+        <b-form-radio value="">
+          <b-badge variant="light">Tudo</b-badge>
+        </b-form-radio>
+        <b-form-radio value="agendado">
+          <b-badge variant="info">Agendado</b-badge>
+        </b-form-radio>
+        <b-form-radio value="finalizado">
+          <b-badge variant="secondary">Finalizado</b-badge>
+        </b-form-radio>
+        <b-form-radio value="disponivel">
+          <b-badge variant="success">Disponível</b-badge>
+        </b-form-radio>
+      </b-form-radio-group>
+    </b-form-group>
+
     <template>
       <div id="fsTabela" style="">
         <div class="row">
-          <b-table striped hover id="tabela-disponiveis"
+          <b-table striped hover id="tabela-disponiveis" class="text-left"
                    :busy="isBusy"
                    :fields="fields"
                    :per-page="perPage"
@@ -31,6 +49,14 @@
                 <b-spinner class="align-middle"></b-spinner>
                 <strong>Buscando...</strong>
               </div>
+            </template>
+            <template #cell(especialidade)="row">
+              <span>{{ row.item.especialidade }}</span>
+              <b-badge variant="info" v-if="row.item.status === 'Agendado'">Agendado</b-badge>
+              <b-badge variant="secondary" v-else-if="row.item.status === 'Finalizado'">
+                Finalizado
+              </b-badge>
+              <b-badge variant="success" v-else>Disponível</b-badge>
             </template>
             <template #cell(ir)="row">
               <b-button-group size="sm">
@@ -66,6 +92,20 @@ import {BIconLink45deg, BIconTrash} from 'bootstrap-vue'
 
 import ConsultaService from '@/services/consulta.service'
 
+function formatDate(date) {
+  var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2)
+    month = '0' + month;
+  if (day.length < 2)
+    day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
 export default {
   middleware: ['autenticado', 'cadastro-incompleto'],
   components: {
@@ -78,7 +118,8 @@ export default {
       isBusy: false,
       perPage: 10,
       currentPage: 1,
-      selecaoData: ''
+      selecaoData: formatDate(new Date()),
+      filtroStatus: '',
     }
   },
   methods: {
@@ -117,17 +158,10 @@ export default {
   },
   computed: {
     fields() {
-      let fields = [{key: 'dataMarcada', label: 'Data Marcada', sortable: true},
+      return [
         {key: 'horario', label: 'Horário', sortable: true},
-        {key: 'fimHorario', label: 'Finalizado em', sortable: true},
         {key: 'especialidade', label: 'Especialidade', sortable: true},
-        {key: 'ir', label: 'Ação', sortable: false},]
-
-      if (this.usuarioCorrente?.includes('T')) {
-        fields.push({key: 'status', label: 'Status', sortable: true})
-      }
-
-      return fields;
+        {key: 'ir', label: 'Ação', sortable: false},];
     },
     usuarioCorrente() {
       return this.$store.state.auth.user;
@@ -136,13 +170,23 @@ export default {
       return this.usuarioCorrente?.includes('T');
     },
     rows() {
-      return this.registros.length
+      return this.registros?.length
     },
     registros() {
+      let consultas = this.consultas;
       if (this.selecaoData) {
-        return this.consultas.filter(c => c.dataMarcada === this.selecaoData)
+        consultas = this.consultas.filter(c => c.dataMarcada === this.selecaoData)
       }
-      return this.consultas;
+
+      if (this.filtroStatus === 'finalizado') {
+        consultas = consultas.filter(c => c.finalizado)
+      } else if (this.filtroStatus === 'agendado') {
+        consultas = consultas.filter(c => c.agendado);
+      } else if (this.filtroStatus === 'disponivel') {
+        consultas = consultas.filter(c => c.disponivel)
+      }
+
+      return consultas;
     },
     diasComAgenda() {
       return [...new Set(this.consultas.map(c => c.dataMarcada))];
@@ -156,6 +200,9 @@ export default {
             c.pagina = `/atendimento/${c.idConsulta}`;
             c.podeRemover = this.podeRemover(c)
             c.status = c.fimHorario ? 'Finalizado' : c.idUsuario ? 'Agendado' : 'Disponível'
+            c.finalizado = !!c.fimHorario && !!c.idUsuario
+            c.agendado = !c.fimHorario && !!c.idUsuario
+            c.disponivel = !c.agendado && !c.finalizado
           })
           this.consultas = consultas
         }
@@ -205,6 +252,14 @@ export default {
   color: #526488;
   word-spacing: 5px;
   padding-bottom: 15px;
+}
+
+
+@media (min-width: 486px) {
+  td span:last-child {
+    float: right;
+    margin-left: 5px;
+  }
 }
 
 </style>
