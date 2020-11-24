@@ -67,6 +67,10 @@ export default {
     }
   },
   methods: {
+    playSound () {
+        const audio = new Audio('/elevator-song.mp3');
+        audio.play();
+    },
     scrollToEnd() {
       const container = this.$el.querySelector(".historico");
       container.scrollTop = container.scrollHeight;
@@ -82,6 +86,7 @@ export default {
               `/secured/room/queue-user${this.sessionId}`,
               evento => {
                 this.mensagens.push(JSON.parse(evento.body))
+                this.playSound();
               });
           },
           error => {
