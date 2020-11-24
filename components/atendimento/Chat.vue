@@ -67,6 +67,15 @@ export default {
     }
   },
   methods: {
+    playSound () {
+        const audio = new Audio('/elevator-song.mp3');
+        audio.play();
+    },
+    scrollToEnd() {
+      const container = this.$el.querySelector(".historico");
+      container.scrollTop = container.scrollHeight;
+      console.log(container.scrollHeight)
+    },
     connect() {
       if (this.url) {
         this.stompClient.connect(
@@ -77,6 +86,7 @@ export default {
               `/secured/room/queue-user${this.sessionId}`,
               evento => {
                 this.mensagens.push(JSON.parse(evento.body))
+                this.playSound();
               });
           },
           error => {
@@ -180,6 +190,9 @@ export default {
     conectado() {
       this.tickleConnection()
     },
+  },
+  updated() {
+    this.scrollToEnd()
   }
 }
 </script>
