@@ -1,7 +1,7 @@
 <template>
   <b-container class="container-page">
     <nav-bar></nav-bar>
-    <nuxt />
+    <nuxt class="container-page"/>
     <v-overlay :value="overlay">
       <p>
         <v-progress-circular
