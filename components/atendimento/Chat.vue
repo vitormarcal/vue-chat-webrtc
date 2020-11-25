@@ -1,9 +1,6 @@
 <template>
-  <div id="chat" class="card mt-3">
-    <b-card-header header-tag="header" class="p-1" role="tab">
-      <b-button block v-b-toggle.accordion-1 variant="info" @click="scrollToEnd('#chat')">Mensagens</b-button>
-    </b-card-header>
-    <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+  <div class="chat card mt-3">
+    <b-collapse id="accordion-1" accordion="my-accordion" role="tabpanel">
       <div class="card-body">
         <div class="card-title">
           <h3 v-if="chatAtivo">Você está conversando com @{{ to.nome }}</h3>
@@ -42,6 +39,12 @@
         </form>
       </div>
     </b-collapse>
+    <b-card-header header-tag="header" class="p-1" role="tab">
+      <b-button block v-b-toggle.accordion-1 variant="info" @click="toggle">
+        <template v-if="escrever === 'N'">Mensagens</template>
+        <template v-else>Vídeo</template>
+      </b-button>
+    </b-card-header>
 
     <b-modal id="modal-finalizar-chat" title="Cadastro de usuário" @ok="finalizarComMensagem">
       <p class="title">
@@ -57,7 +60,7 @@ import {BIconXSquare, BIconTrash, BIconXCircleFill, BIconArrowUp} from 'bootstra
 
 export default {
   name: "Chat",
-  props: ['to', 'title', 'iniciarEm', 'idConsulta', 'mensagens', 'ativo'],
+  props: ['to', 'title', 'iniciarEm', 'idConsulta', 'mensagens', 'ativo', 'escrever'],
   components: {
     BIconXSquare,
     BIconTrash,
@@ -72,6 +75,13 @@ export default {
     }
   },
   methods: {
+    toggle() {
+      if (this.escrever === 'N') {
+        this.$emit('update:escrever', 'S')
+      } else {
+        this.$emit('update:escrever', 'N')
+      }
+    },
     playSound () {
         const audio = new Audio('/elevator-song.mp3');
         audio.play();
