@@ -19,7 +19,25 @@
 
       </p>
 
-      <div class="card w-100" id="mainFrame">
+      <chat v-if="this.podeVisualizarChat"
+            :to="destinatario"
+            :id-consulta="this.id"
+            :title="this.tituloChat"
+            :ativo="podeConversarNoChat"
+            :from="this.usuarioCorrente"
+            :mensagens.sync="mensagens"
+            :escrever="this.escrever"
+            @update:escrever="(valor) => this.escrever = valor"
+      >
+
+      </chat>
+
+      <div v-else>
+        <b-spinner small label="Small Spinner"></b-spinner>
+        <b-spinner small label="Small Spinner" type="grow"></b-spinner>
+      </div>
+
+      <div class="card w-100" id="mainFrame" v-show="escrever === 'N'">
         <video id="localVideo" ref="localVideo" autoplay muted>LocalVideo</video>
         <video id="remoteVideo" class="w-100 p-3" ref="remoteVideo" autoplay>RemoteVideo</video>
         <div class="bottom-bar d-flex justify-center">
@@ -34,23 +52,6 @@
             </v-icon>
           </v-btn>
         </div>
-      </div>
-
-
-      <chat v-if="this.podeVisualizarChat"
-            :to="destinatario"
-            :id-consulta="this.id"
-            :title="this.tituloChat"
-            :ativo="podeConversarNoChat"
-            :from="this.usuarioCorrente"
-            :mensagens.sync="mensagens"
-      >
-
-      </chat>
-
-      <div v-else>
-        <b-spinner small label="Small Spinner"></b-spinner>
-        <b-spinner small label="Small Spinner" type="grow"></b-spinner>
       </div>
 
     </div>
@@ -87,6 +88,7 @@ export default {
       mensagens: [],
       interval: null,
       room: this.$route.params.id,
+      escrever: 'N',
     }
   },
   async asyncData({params}) {
