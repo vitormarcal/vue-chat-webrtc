@@ -291,6 +291,7 @@ export default {
   font-size: 32px;
   color: #35495e;
   letter-spacing: 1px;
+  margin-top: 10vh;
 }
 
 .subtitle {
