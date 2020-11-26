@@ -104,7 +104,6 @@ import {mapState} from "vuex";
 export default {
   components: {NavBar, CHeader},
   computed: mapState({
-    name: state => state.setting.name,
     overlay: state => state.setting.overlay
   }),
   mounted () {
