@@ -1,6 +1,5 @@
 <template>
   <b-container class="container-page">
-    <nav-bar></nav-bar>
     <Nuxt />
   </b-container>
 </template>
