@@ -87,7 +87,6 @@ export default {
       podeVisualizarChat: false,
       mensagens: [],
       interval: null,
-      room: this.$route.params.id,
       escrever: 'N',
     }
   },
@@ -150,7 +149,8 @@ export default {
     },
   },
   async beforeDestroy() {
-    await this.$socket.emit('leave', this.room)
+    debugger
+    await this.$socket.emit('leave', this.id)
     clearInterval(this.interval);
   },
   beforeRouteLeave(to, from, next) {
@@ -160,10 +160,10 @@ export default {
   async beforeMount() {
     const lastId = localStorage.getItem('lastId')
     if (lastId) {
-      await this.$socket.emit('leave', this.room)
+      await this.$socket.emit('leave', this.id)
     }
     await this.$socket.emit('join', lastId)
-    localStorage.setItem('lastId', this.room)
+    localStorage.setItem('lastId', this.id)
   },
   async mounted() {
     this.montarRegras();
@@ -230,14 +230,14 @@ export default {
     const offer = await localPC.createOffer()
     await localPC.setLocalDescription(offer)
     await this.$socket.emit('message', JSON.stringify({
-      room: this.room,
+      room: this.id,
       data: localPC.localDescription
     }))
 
     localPC.onicecandidate = async (event) => {
       if (event.candidate) {
         await this.$socket.emit('message', JSON.stringify({
-          room: this.room,
+          room: this.id,
           data: event.candidate
         }))
       } else {
@@ -261,7 +261,7 @@ export default {
         const answer = await localPC.createAnswer()
         await localPC.setLocalDescription(answer)
         await this.$socket.emit('message', JSON.stringify({
-          room: this.room,
+          room: this.id,
           data: localPC.localDescription
         }))
       } else if (data.type === 'answer') {
